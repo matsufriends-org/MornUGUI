@@ -13,6 +13,11 @@ namespace MornUGUI
         [SerializeField] private float _lerpSpeed = 10f;
         private Vector3? _defaultScale;
 
+        private void Reset()
+        {
+            _rectTransform = GetComponent<RectTransform>();
+        }
+
         private void Update()
         {
             if (_defaultScale != null)

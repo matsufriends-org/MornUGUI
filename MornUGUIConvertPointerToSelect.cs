@@ -16,18 +16,18 @@ namespace MornUGUI
                 EventSystem.current.SetSelectedGameObject(gameObject);
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
             ExecuteEvents.Execute(gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
             _isExist = true;
             EventSystem.current.SetSelectedGameObject(gameObject);
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
             _isExist = false;
             if (EventSystem.current.currentSelectedGameObject == gameObject)
