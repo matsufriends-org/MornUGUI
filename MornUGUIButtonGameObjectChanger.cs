@@ -5,29 +5,27 @@ using UnityEngine.UI;
 namespace MornUGUI
 {
     [RequireComponent(typeof(Button))]
-    [ExecuteAlways]
-    public class MornUGUIButtonGameObjectChanger : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler
+    public class MornUGUIButtonGameObjectChanger : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;
-        private bool _isSelect;
+
+        private void Awake()
+        {
+            _focused.SetActive(false);
+            _unfocused.SetActive(true);
+        }
 
         public void OnDeselect(BaseEventData eventData)
         {
-            _isSelect = false;
             _focused.SetActive(false);
             _unfocused.SetActive(true);
         }
 
         public void OnSelect(BaseEventData eventData)
         {
-            _isSelect = true;
             _focused.SetActive(true);
             _unfocused.SetActive(false);
-        }
-
-        public void OnSubmit(BaseEventData eventData)
-        {
         }
     }
 }
