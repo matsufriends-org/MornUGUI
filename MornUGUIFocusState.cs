@@ -9,7 +9,7 @@ using VContainer;
 
 namespace MornUGUI
 {
-    public class MornUGUIFocusResetState : StateBehaviour
+    public class MornUGUIFocusState : StateBehaviour
     {
         [SerializeField] private GameObject _focusObject;
         [SerializeField] private bool _useCache = true;
@@ -37,6 +37,11 @@ namespace MornUGUI
         {
             var current = EventSystem.current.currentSelectedGameObject;
             if (current != null && _useCache) _focusCache = EventSystem.current.currentSelectedGameObject;
+        }
+
+        public override void OnStateEnd()
+        {
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 }
