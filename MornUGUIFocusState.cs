@@ -18,6 +18,11 @@ namespace MornUGUI
 
         public override void OnStateBegin()
         {
+            if (EventSystem.current.currentSelectedGameObject == _focusObject)
+            {
+                return;
+            }
+            
             var currentScheme = _inputController.CurrentScheme;
             if (currentScheme.Length > 0 && currentScheme != "Mouse")
             {
