@@ -8,7 +8,7 @@ namespace MornUGUI
     public class MornUGUIButtonSoundBlockState : StateBehaviour
     {
         [Inject] private IMornFlagSetter _flagSetter;
-        [SerializeField] private int _blockFrame = 10;
+        [SerializeField] private int _blockFrame = 3;
         private int _leftFrame;
 
         public override void OnStateBegin()

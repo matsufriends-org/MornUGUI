@@ -24,7 +24,7 @@ namespace MornUGUI
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
             _isExist = true;
-            EventSystem.current.SetSelectedGameObject(gameObject);
+            Update();
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
