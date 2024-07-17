@@ -6,7 +6,7 @@ namespace MornUGUI
 {
     [RequireComponent(typeof(Button))]
     [ExecuteAlways]
-    public class MornUGUIButtonColorChanger : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler
+    public sealed class MornUGUIButtonColorChanger : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         [SerializeField] private Image _image;
         [SerializeField] private Color _normalColor;
@@ -40,13 +40,6 @@ namespace MornUGUI
         {
             _isSelect = true;
             _image.color = _selectedColor;
-        }
-
-        public void OnSubmit(BaseEventData eventData)
-        {
-            var color = _image.color;
-            color.a = 0.3f;
-            _image.color = color;
         }
     }
 }
