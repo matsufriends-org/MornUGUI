@@ -13,29 +13,34 @@ namespace MornUGUI
     public sealed class MornUGUIButtonSound : MonoBehaviour, ISelectHandler, ISubmitHandler
     {
         private IMornFlagGetter _flagGetter;
-        private IMornSoundSimple _player;
-        [SerializeField] private string _onSelected;
-        [SerializeField] private string _onSubmit;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _onSelectedClip;
+        [SerializeField] private AudioClip _onSubmitClip;
 
         private void Awake()
         {
             var container = VContainerSettings.Instance.GetOrCreateRootLifetimeScopeInstance().Container;
             _flagGetter = container.Resolve<IMornFlagGetter>();
-            _player = container.Resolve<IMornSoundSimple>();
         }
 
         public void OnSelect(BaseEventData eventData)
         {
             if (_flagGetter.GetFlag(MornUGUIUtil.BlockSelectSoundFlag))
+            {
                 return;
-            _player.Play(_onSelected);
+            }
+
+            _audioSource.PlayOneShot(_onSelectedClip);
         }
 
         public void OnSubmit(BaseEventData eventData)
         {
             if (_flagGetter.GetFlag(MornUGUIUtil.BlockSelectSoundFlag))
+            {
                 return;
-            _player.Play(_onSubmit);
+            }
+
+            _audioSource.PlayOneShot(_onSubmitClip);
         }
     }
 }
