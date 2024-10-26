@@ -1,25 +1,16 @@
-using System;
 using MornFlag;
-using MornSound;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VContainer;
-using VContainer.Unity;
 
 namespace MornUGUI
 {
     [RequireComponent(typeof(Button))]
     public sealed class MornUGUIButtonSound : MonoBehaviour, ISelectHandler, ISubmitHandler
     {
-        private IMornFlagGetter _flagGetter;
+        [Inject] private IMornFlagGetter _flagGetter;
         [SerializeField] private AudioSource _audioSource;
-
-        private void Awake()
-        {
-            var container = VContainerSettings.Instance.GetOrCreateRootLifetimeScopeInstance().Container;
-            _flagGetter = container.Resolve<IMornFlagGetter>();
-        }
 
         public void OnSelect(BaseEventData eventData)
         {
