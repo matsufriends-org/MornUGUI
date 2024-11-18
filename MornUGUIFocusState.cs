@@ -1,6 +1,5 @@
 ﻿using Arbor;
 using Cysharp.Threading.Tasks;
-using MornAttribute;
 using MornInput;
 using UniRx;
 using UnityEngine;
@@ -22,26 +21,32 @@ namespace MornUGUI
             {
                 return;
             }
-            
+
             var currentScheme = _inputController.CurrentScheme;
             if (currentScheme.Length > 0 && currentScheme != "Mouse")
             {
-                if (_useCache && _focusCache != null) EventSystem.current.SetSelectedGameObject(_focusCache);
-                else EventSystem.current.SetSelectedGameObject(_focusObject);
+                if (_useCache && _focusCache != null)
+                    EventSystem.current.SetSelectedGameObject(_focusCache);
+                else
+                    EventSystem.current.SetSelectedGameObject(_focusObject);
             }
 
-            _inputController.OnSchemeChanged.Subscribe(pair =>
-            {
-                var (prev, next) = pair;
-                if (next == "Mouse") EventSystem.current.SetSelectedGameObject(null);
-                else if (prev == "Mouse") EventSystem.current.SetSelectedGameObject(_focusObject);
-            }).AddTo(CancellationTokenOnEnd);
+            _inputController.OnSchemeChanged.Subscribe(
+                pair =>
+                {
+                    var (prev, next) = pair;
+                    if (next == "Mouse")
+                        EventSystem.current.SetSelectedGameObject(null);
+                    else if (prev == "Mouse")
+                        EventSystem.current.SetSelectedGameObject(_focusObject);
+                }).AddTo(CancellationTokenOnEnd);
         }
 
         public override void OnStateUpdate()
         {
             var current = EventSystem.current.currentSelectedGameObject;
-            if (current != null && _useCache) _focusCache = EventSystem.current.currentSelectedGameObject;
+            if (current != null && _useCache)
+                _focusCache = EventSystem.current.currentSelectedGameObject;
         }
 
         public override void OnStateEnd()
