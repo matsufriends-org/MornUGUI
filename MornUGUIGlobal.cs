@@ -1,5 +1,6 @@
 ﻿using MornGlobal;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MornUGUI
 {
@@ -12,9 +13,13 @@ namespace MornUGUI
         protected override bool ShowLog => true;
 #endif
         protected override string ModuleName => nameof(MornUGUI);
+        [Header("Input")]
+        [SerializeField] private InputActionReference _cancel;
+        [Header("Audio")]
         [SerializeField] private AudioClip _buttonCursorClip;
         [SerializeField] private AudioClip _buttonSubmitClip;
         [SerializeField] private AudioClip _buttonCancelClip;
+        public InputAction InputCancel => _cancel.action;
         public AudioClip ButtonCursorClip => _buttonCursorClip;
         public AudioClip ButtonSubmitClip => _buttonSubmitClip;
         public AudioClip ButtonCancelClip => _buttonCancelClip;
