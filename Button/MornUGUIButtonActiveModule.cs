@@ -4,12 +4,12 @@ using UnityEngine;
 namespace MornUGUI
 {
     [Serializable]
-    public sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
+    internal sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;
 
-        public override void Awake()
+        public override void Awake(MornUGUIButton parent)
         {
             if (_focused != null)
             {
@@ -22,7 +22,7 @@ namespace MornUGUI
             }
         }
 
-        public override void OnDeselect()
+        public override void OnDeselect(MornUGUIButton parent)
         {
             if (_focused != null)
             {
@@ -35,7 +35,7 @@ namespace MornUGUI
             }
         }
 
-        public override void OnSelect()
+        public override void OnSelect(MornUGUIButton parent)
         {
             if (_focused != null)
             {

@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,7 +8,7 @@ using UnityEngine.InputSystem;
 namespace MornUGUI
 {
     [Serializable]
-    public class MornUGUIFocusModule : MornUGUIModuleBase
+    internal class MornUGUIFocusModule : MornUGUIModuleBase
     {
         [SerializeField] private bool _useCache = true;
         [SerializeField] private GameObject _autoFocusTarget;
@@ -14,8 +16,13 @@ namespace MornUGUI
         private PlayerInput _cachedInput;
         private string _cachedScheme;
 
-        public override void OnStateBegin()
+        public override void OnStateBegin(MornUGUIControlState parent)
         {
+            if (_autoFocusTarget == null)
+            {
+                return;
+            }
+
             var all = PlayerInput.all;
             if (all.Count == 0)
             {
@@ -45,17 +52,19 @@ namespace MornUGUI
                 if (_useCache && _focusCache != null)
                 {
                     EventSystem.current.SetSelectedGameObject(_focusCache);
+                    MornUGUIGlobal.I.Log("Focus on cache.");
                 }
                 else
                 {
                     EventSystem.current.SetSelectedGameObject(_autoFocusTarget);
+                    MornUGUIGlobal.I.Log("Focus on target.");
                 }
             }
         }
 
-        public override void OnStateUpdate()
+        public override void OnStateUpdate(MornUGUIControlState parent)
         {
-            if (_cachedInput == null)
+            if (_autoFocusTarget == null || _cachedInput == null)
             {
                 return;
             }
@@ -67,11 +76,19 @@ namespace MornUGUI
                 {
                     // マウスに変化する場合はフォーカスを外す
                     EventSystem.current.SetSelectedGameObject(null);
+                    MornUGUIGlobal.I.Log("Focus off by mouse.");
                 }
                 else if (_cachedScheme == "Mouse")
                 {
                     // マウスからそれ以外へ変化する場合はフォーカスを設定
-                    EventSystem.current.SetSelectedGameObject(_autoFocusTarget);
+                    // そのキー入力がボタンに反応してしまうため、1F待機する
+                    DelayAsync(
+                        () =>
+                        {
+                            EventSystem.current.SetSelectedGameObject(_autoFocusTarget);
+                            MornUGUIGlobal.I.Log("Auto Focus on target by mouse.");
+                        },
+                        parent.destroyCancellationToken).Forget();
                 }
 
                 _cachedScheme = nextScheme;
@@ -84,8 +101,19 @@ namespace MornUGUI
             }
         }
 
-        public override void OnStateEnd()
+        private async UniTaskVoid DelayAsync(Action action, CancellationToken cancellationToken)
         {
+            await UniTask.Yield(cancellationToken);
+            action();
+        }
+
+        public override void OnStateEnd(MornUGUIControlState parent)
+        {
+            if (_autoFocusTarget == null)
+            {
+                return;
+            }
+
             EventSystem.current.SetSelectedGameObject(null);
         }
     }

@@ -1,16 +1,39 @@
+using System;
+
 namespace MornUGUI
 {
-    public abstract class MornUGUIButtonModuleBase
+    [Serializable]
+    internal abstract class MornUGUIButtonModuleBase
     {
-        public virtual void Awake()
+        public virtual void Awake(MornUGUIButton parent)
         {
         }
 
-        public virtual void OnSelect()
+        public virtual void Update(MornUGUIButton parent)
         {
         }
 
-        public virtual void OnDeselect()
+        public virtual void OnSelect(MornUGUIButton parent)
+        {
+        }
+
+        public virtual void OnDeselect(MornUGUIButton parent)
+        {
+        }
+
+        public virtual void OnSubmit(MornUGUIButton parent)
+        {
+        }
+
+        public virtual void OnPointerEnter(MornUGUIButton parent)
+        {
+        }
+
+        public virtual void OnPointerExit(MornUGUIButton parent)
+        {
+        }
+
+        public virtual void OnPointerDown(MornUGUIButton parent)
         {
         }
     }
