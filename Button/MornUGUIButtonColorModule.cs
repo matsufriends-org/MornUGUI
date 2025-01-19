@@ -5,23 +5,13 @@ using UnityEngine.UI;
 namespace MornUGUI
 {
     [Serializable]
-    public sealed class MornUGUIButtonColorModule : MornUGUIButtonModuleBase
+    internal sealed class MornUGUIButtonColorModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private Image _image;
-        [SerializeField] private Color _focusedColor;
-        [SerializeField] private Color _unfocusedColor;
+        [SerializeField] private Color _focusedColor = Color.white;
+        [SerializeField] private Color _unfocusedColor = Color.gray;
 
-        public override void Awake()
-        {
-            if (_image == null)
-            {
-                return;
-            }
-
-            _image.color = _focusedColor;
-        }
-
-        public override void OnSelect()
+        public override void Awake(MornUGUIButton parent)
         {
             if (_image == null)
             {
@@ -31,7 +21,7 @@ namespace MornUGUI
             _image.color = _unfocusedColor;
         }
 
-        public override void OnDeselect()
+        public override void OnSelect(MornUGUIButton parent)
         {
             if (_image == null)
             {
@@ -39,6 +29,16 @@ namespace MornUGUI
             }
 
             _image.color = _focusedColor;
+        }
+
+        public override void OnDeselect(MornUGUIButton parent)
+        {
+            if (_image == null)
+            {
+                return;
+            }
+
+            _image.color = _unfocusedColor;
         }
     }
 }

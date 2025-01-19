@@ -5,12 +5,17 @@ using UnityEngine.EventSystems;
 namespace MornUGUI
 {
     [Serializable]
-    public class MornUGUICancelModule : MornUGUIModuleBase
+    internal class MornUGUICancelModule : MornUGUIModuleBase
     {
         [SerializeField] private GameObject _cancelTarget;
 
-        public override void OnStateUpdate()
+        public override void OnStateUpdate(MornUGUIControlState parent)
         {
+            if (_cancelTarget == null)
+            {
+                return;
+            }
+
             if (MornUGUIGlobal.I.InputCancel.WasPerformedThisFrame())
             {
                 var current = EventSystem.current.currentSelectedGameObject;
