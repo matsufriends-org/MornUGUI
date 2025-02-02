@@ -35,7 +35,7 @@ namespace MornUGUI
 
         public override void OnEditorInitialize(MornUGUIControlState parent)
         {
-            _buttonStateLinkSets = parent.CanvasGroup.transform.parent.GetComponentsInChildren<Button>().Select(
+            _buttonStateLinkSets = parent.CanvasGroup.transform.GetComponentsInChildren<Button>().Select(
                 button =>
                 {
                     var stateLinkSet = new ButtonStateLinkSet
