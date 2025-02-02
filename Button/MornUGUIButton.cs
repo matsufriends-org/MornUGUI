@@ -17,12 +17,14 @@ namespace MornUGUI
         IPointerExitHandler,
         IPointerDownHandler
     {
+        [SerializeField] private Button _button;
         [SerializeField] private bool _isNegative;
         [SerializeField] private MornUGUIButtonActiveModule _activeModule;
         [SerializeField] private MornUGUIButtonColorModule _colorModule;
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
         [Inject] private IMornFlagGetter _flagGetter;
+        public bool IsInteractable => _button.interactable;
         public bool IsNegative => _isNegative;
         public IMornFlagGetter FlagGetter => _flagGetter;
 
