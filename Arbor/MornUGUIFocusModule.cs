@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace MornUGUI
 {
@@ -98,6 +100,46 @@ namespace MornUGUI
             if (current != null && _useCache)
             {
                 _focusCache = EventSystem.current.currentSelectedGameObject;
+            }
+
+            if (!_focusCache.activeInHierarchy &&_useCache)
+            {
+                // キャッシュの隣接を探す
+                var selectable = _focusCache.GetComponent<Selectable>();
+
+                if (selectable != null)
+                {
+                    var list = new List<Selectable>()
+                    {
+                        selectable.FindSelectableOnUp(),
+                        selectable.FindSelectableOnDown(),
+                        selectable.FindSelectableOnLeft(),
+                        selectable.FindSelectableOnRight()
+                    };
+
+                    var mostNearDistance = float.MaxValue;
+                    Selectable mostNear = null;
+
+                    foreach (var near in list)
+                    {
+                        if (near != null && near.gameObject.activeInHierarchy)
+                        {
+                            var distance = Vector3.Distance(near.transform.position, _focusCache.transform.position);
+                            if (distance < mostNearDistance)
+                            {
+                                mostNearDistance = distance;
+                                mostNear = near;
+                            }
+                        }
+                    }
+                    
+                    if (mostNear != null)
+                    {
+                        _focusCache = mostNear.gameObject;
+                        EventSystem.current.SetSelectedGameObject(_focusCache);
+                        MornUGUIGlobal.I.Log("Focus on cache near.");
+                    }
+                }
             }
         }
 
