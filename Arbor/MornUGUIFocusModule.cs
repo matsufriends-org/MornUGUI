@@ -102,11 +102,10 @@ namespace MornUGUI
                 _focusCache = EventSystem.current.currentSelectedGameObject;
             }
 
-            if (!_focusCache.activeInHierarchy &&_useCache)
+            if (_focusCache != null && !_focusCache.activeInHierarchy && _useCache)
             {
                 // キャッシュの隣接を探す
                 var selectable = _focusCache.GetComponent<Selectable>();
-
                 if (selectable != null)
                 {
                     var list = new List<Selectable>()
@@ -116,10 +115,8 @@ namespace MornUGUI
                         selectable.FindSelectableOnLeft(),
                         selectable.FindSelectableOnRight()
                     };
-
                     var mostNearDistance = float.MaxValue;
                     Selectable mostNear = null;
-
                     foreach (var near in list)
                     {
                         if (near != null && near.gameObject.activeInHierarchy)
@@ -132,7 +129,7 @@ namespace MornUGUI
                             }
                         }
                     }
-                    
+
                     if (mostNear != null)
                     {
                         _focusCache = mostNear.gameObject;
