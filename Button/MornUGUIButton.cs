@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using MornFlag;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +11,7 @@ using VContainer;
 namespace MornUGUI
 {
     [RequireComponent(typeof(Button))]
-    internal sealed class MornUGUIButton : MonoBehaviour,
+    public sealed class MornUGUIButton : MonoBehaviour,
         ISelectHandler,
         IDeselectHandler,
         ISubmitHandler,
@@ -24,9 +26,15 @@ namespace MornUGUI
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
         [Inject] private IMornFlagGetter _flagGetter;
-        public bool IsInteractable => _button.interactable;
+        public bool IsInteractable
+        {
+            get => _button.interactable;
+            set => _button.interactable = value;
+        }
         public bool IsNegative => _isNegative;
         public IMornFlagGetter FlagGetter => _flagGetter;
+        public IObservable<Unit>　OnButtonSelected => _button.OnSelectAsObservable().Select(_ => Unit.Default);
+        public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
 
         private IEnumerable<MornUGUIButtonModuleBase> GetModules()
         {
