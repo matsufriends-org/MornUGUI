@@ -6,6 +6,9 @@ namespace MornUGUI
     [Serializable]
     internal sealed class MornUGUIButtonSoundModule : MornUGUIButtonModuleBase
     {
+        [SerializeField] private bool _ignoreCursor;
+        [SerializeField] private bool _ignoreSubmit;
+        [SerializeField] private bool _ignoreCancel;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _overrideCursorClip;
         [SerializeField] private AudioClip _overrideSubmitClip;
@@ -13,7 +16,7 @@ namespace MornUGUI
 
         public override void OnSelect(MornUGUIButton parent)
         {
-            if (parent.FlagGetter.GetFlag(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus))
+            if (_ignoreCursor || parent.FlagGetter.GetFlag(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus))
             {
                 return;
             }
@@ -30,6 +33,11 @@ namespace MornUGUI
         public override void OnSubmit(MornUGUIButton parent)
         {
             if (parent.FlagGetter.GetFlag(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus))
+            {
+                return;
+            }
+
+            if ((_ignoreSubmit && !parent.IsNegative) || (_ignoreCancel && parent.IsNegative))
             {
                 return;
             }
