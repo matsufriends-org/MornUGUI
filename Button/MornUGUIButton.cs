@@ -53,6 +53,11 @@ namespace MornUGUI
             Execute((module, parent) => module.Awake(parent));
         }
 
+        private void Update()
+        {
+            Execute((module, parent) => module.Update(parent));
+        }
+
         public void OnSelect(BaseEventData eventData)
         {
             Execute((module, parent) => module.OnSelect(parent));
