@@ -14,35 +14,40 @@ namespace MornUGUI
         [Header("not interactable")]
         [SerializeField] private Color _focusedColor2 = Color.white;
         [SerializeField] private Color _unfocusedColor2 = Color.gray;
-        
+        private bool _cachedIsFocused;
+
         public override void Awake(MornUGUIButton parent)
+        {
+            Update(parent);
+        }
+
+        public override void Update(MornUGUIButton parent)
         {
             if (_image == null)
             {
                 return;
             }
 
-            _image.color = parent.IsInteractable ? _unfocusedColor : _unfocusedColor2;
+            if (_cachedIsFocused)
+            {
+                _image.color = parent.IsInteractable ? _focusedColor : _focusedColor2;
+            }
+            else
+            {
+                _image.color = parent.IsInteractable ? _unfocusedColor : _unfocusedColor2;
+            }
         }
 
         public override void OnSelect(MornUGUIButton parent)
         {
-            if (_image == null)
-            {
-                return;
-            }
-
-            _image.color = parent.IsInteractable ? _focusedColor : _focusedColor2;
+            _cachedIsFocused = true;
+            Update(parent);
         }
 
         public override void OnDeselect(MornUGUIButton parent)
         {
-            if (_image == null)
-            {
-                return;
-            }
-
-            _image.color = parent.IsInteractable ? _unfocusedColor : _unfocusedColor2;
+            _cachedIsFocused = false;
+            Update(parent);
         }
     }
 }
