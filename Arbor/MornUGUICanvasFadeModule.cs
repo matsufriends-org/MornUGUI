@@ -53,7 +53,7 @@ namespace MornUGUI
         {
             var from = target.alpha;
             var startTime = Time.time;
-            while (true)
+            while (duration > 0)
             {
                 var dif = Time.time - startTime;
                 var alpha = Mathf.Lerp(from, to, dif / duration);

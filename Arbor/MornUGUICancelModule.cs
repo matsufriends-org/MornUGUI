@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace MornUGUI
 {
     [Serializable]
     internal class MornUGUICancelModule : MornUGUIModuleBase
     {
-        [SerializeField] private GameObject _cancelTarget;
+        [SerializeField] private Selectable _cancelTarget;
 
         public override void OnStateUpdate(MornUGUIControlState parent)
         {
@@ -21,12 +22,12 @@ namespace MornUGUI
                 var current = EventSystem.current.currentSelectedGameObject;
                 if (current != _cancelTarget)
                 {
-                    EventSystem.current.SetSelectedGameObject(_cancelTarget);
+                    EventSystem.current.SetSelectedGameObject(_cancelTarget.gameObject);
                 }
                 else
                 {
                     ExecuteEvents.Execute(
-                        _cancelTarget,
+                        _cancelTarget.gameObject,
                         new BaseEventData(EventSystem.current),
                         ExecuteEvents.submitHandler);
                 }
