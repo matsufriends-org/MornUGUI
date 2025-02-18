@@ -4,17 +4,31 @@ using UnityEngine;
 namespace MornUGUI
 {
     [Serializable]
-    internal sealed class MornUGUIButtonSoundModule : MornUGUIButtonModuleBase
+    internal sealed class MornUGUISliderSoundModule : MornUGUISliderModuleBase
     {
         [SerializeField] private bool _ignoreCursor;
         [SerializeField] private bool _ignoreSubmit;
-        [SerializeField] private bool _ignoreCancel;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _overrideCursorClip;
         [SerializeField] private AudioClip _overrideSubmitClip;
-        [SerializeField] private AudioClip _overrideCancelClip;
 
-        public override void OnSelect(MornUGUIButton parent)
+        public override void OnSelect(MornUGUISlider parent)
+        {
+            if (_ignoreCursor || MornUGUIService.I.IsBlocking)
+            {
+                return;
+            }
+
+            var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
+            if (clip == null || _audioSource == null)
+            {
+                return;
+            }
+
+            _audioSource.PlayOneShot(MornUGUIGlobal.I.ButtonCursorClip);
+        }
+        
+        public override void OnMove(MornUGUISlider parent)
         {
             if (_ignoreCursor || MornUGUIService.I.IsBlocking)
             {
@@ -30,23 +44,15 @@ namespace MornUGUI
             _audioSource.PlayOneShot(MornUGUIGlobal.I.ButtonCursorClip);
         }
 
-        public override void OnSubmit(MornUGUIButton parent)
+
+        public override void OnSubmit(MornUGUISlider parent)
         {
-            if ((_ignoreSubmit && !parent.IsNegative) || (_ignoreCancel && parent.IsNegative))
+            if (_ignoreSubmit)
             {
                 return;
             }
 
-            AudioClip clip;
-            if (parent.IsNegative)
-            {
-                clip = _overrideCancelClip ? _overrideCancelClip : MornUGUIGlobal.I.ButtonCancelClip;
-            }
-            else
-            {
-                clip = _overrideSubmitClip ? _overrideSubmitClip : MornUGUIGlobal.I.ButtonSubmitClip;
-            }
-
+            var clip = _overrideSubmitClip ? _overrideSubmitClip : MornUGUIGlobal.I.ButtonSubmitClip;
             if (clip == null || _audioSource == null)
             {
                 return;

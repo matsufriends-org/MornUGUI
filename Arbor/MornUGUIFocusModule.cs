@@ -13,8 +13,8 @@ namespace MornUGUI
     internal class MornUGUIFocusModule : MornUGUIModuleBase
     {
         [SerializeField] private bool _useCache = true;
-        [SerializeField] private GameObject _autoFocusTarget;
-        [SerializeField] [ReadOnly] private GameObject _focusCache;
+        [SerializeField] private Selectable _autoFocusTarget;
+        [SerializeField] [ReadOnly] private Selectable _focusCache;
         private PlayerInput _cachedInput;
         private string _cachedScheme;
 
@@ -53,12 +53,12 @@ namespace MornUGUI
             {
                 if (_useCache && _focusCache != null)
                 {
-                    EventSystem.current.SetSelectedGameObject(_focusCache);
+                    EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
                     MornUGUIGlobal.I.Log("Focus on cache.");
                 }
                 else
                 {
-                    EventSystem.current.SetSelectedGameObject(_autoFocusTarget);
+                    EventSystem.current.SetSelectedGameObject(_autoFocusTarget.gameObject);
                     MornUGUIGlobal.I.Log("Focus on target.");
                 }
             }
@@ -88,7 +88,7 @@ namespace MornUGUI
                     DelayAsync(
                         () =>
                         {
-                            EventSystem.current.SetSelectedGameObject(focus);
+                            EventSystem.current.SetSelectedGameObject(focus.gameObject);
                             MornUGUIGlobal.I.Log("Auto Focus on target by mouse.");
                         },
                         parent.destroyCancellationToken).Forget();
@@ -97,13 +97,14 @@ namespace MornUGUI
                 _cachedScheme = nextScheme;
             }
 
-            var current = EventSystem.current.currentSelectedGameObject;
+            var currentSelected = EventSystem.current.currentSelectedGameObject;
+            var current = currentSelected == null ? null : currentSelected.GetComponent<Selectable>();
             if (current != null && _useCache)
             {
-                _focusCache = EventSystem.current.currentSelectedGameObject;
+                _focusCache = current;
             }
 
-            if (_focusCache != null && !_focusCache.activeInHierarchy && _useCache)
+            if (_focusCache != null && !_focusCache.gameObject.activeInHierarchy && _useCache)
             {
                 // キャッシュの隣接を探す
                 var selectable = _focusCache.GetComponent<Selectable>();
@@ -133,8 +134,8 @@ namespace MornUGUI
 
                     if (mostNear != null)
                     {
-                        _focusCache = mostNear.gameObject;
-                        EventSystem.current.SetSelectedGameObject(_focusCache);
+                        _focusCache = mostNear;
+                        EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
                         MornUGUIGlobal.I.Log("Focus on cache near.");
                     }
                 }
