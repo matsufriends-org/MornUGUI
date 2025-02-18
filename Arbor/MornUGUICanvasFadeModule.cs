@@ -13,6 +13,16 @@ namespace MornUGUI
         [SerializeField] private float _fadeOutDuration = 0.6f;
         private CancellationTokenSource _cancellationTokenSource;
 
+        public override void OnAwake(MornUGUIControlState parent)
+        {
+            if (!_active)
+            {
+                return;
+            }
+
+            parent.CanvasGroup.alpha = 0;
+        }
+
         public override void OnStateBegin(MornUGUIControlState parent)
         {
             if (!_active)

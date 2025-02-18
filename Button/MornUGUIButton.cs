@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using MornFlag;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using VContainer;
 
 namespace MornUGUI
 {
@@ -25,10 +23,8 @@ namespace MornUGUI
         [SerializeField] private MornUGUIButtonColorModule _colorModule;
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
-        [Inject] private IMornFlagGetter _flagGetter;
         public bool IsInteractable { get; set; }
         public bool IsNegative => _isNegative;
-        public IMornFlagGetter FlagGetter => _flagGetter;
         public IObservable<Unit>　OnButtonSelected => _button.OnSelectAsObservable().Select(_ => Unit.Default);
         public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
 

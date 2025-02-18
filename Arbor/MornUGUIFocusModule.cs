@@ -84,10 +84,11 @@ namespace MornUGUI
                 {
                     // マウスからそれ以外へ変化する場合はフォーカスを設定
                     // そのキー入力がボタンに反応してしまうため、1F待機する
+                    var focus = _focusCache != null ? _focusCache : _autoFocusTarget;
                     DelayAsync(
                         () =>
                         {
-                            EventSystem.current.SetSelectedGameObject(_autoFocusTarget);
+                            EventSystem.current.SetSelectedGameObject(focus);
                             MornUGUIGlobal.I.Log("Auto Focus on target by mouse.");
                         },
                         parent.destroyCancellationToken).Forget();

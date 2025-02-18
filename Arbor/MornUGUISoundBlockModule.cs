@@ -20,7 +20,7 @@ namespace MornUGUI
             if (blockFrame > 0)
             {
                 _leftFrame = blockFrame;
-                parent.FlagSetter.FlagOn(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus);
+                MornUGUIService.I.BlockOn();
             }
         }
 
@@ -36,7 +36,7 @@ namespace MornUGUI
                 _leftFrame--;
                 if (_leftFrame == 0)
                 {
-                    parent.FlagSetter.FlagOff(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus);
+                    MornUGUIService.I.BlockOff();
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace MornUGUI
                 return;
             }
 
-            parent.FlagSetter.FlagOff(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus);
+            MornUGUIService.I.BlockOff();
         }
     }
 }

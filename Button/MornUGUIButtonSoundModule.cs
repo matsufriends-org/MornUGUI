@@ -16,7 +16,7 @@ namespace MornUGUI
 
         public override void OnSelect(MornUGUIButton parent)
         {
-            if (_ignoreCursor || parent.FlagGetter.GetFlag(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus))
+            if (_ignoreCursor || MornUGUIService.I.IsBlocking)
             {
                 return;
             }
@@ -32,7 +32,7 @@ namespace MornUGUI
 
         public override void OnSubmit(MornUGUIButton parent)
         {
-            if (parent.FlagGetter.GetFlag(MornUGUIGlobal.I.FlagNameBlockingSoundOnFirstFocus))
+            if (MornUGUIService.I.IsBlocking)
             {
                 return;
             }
