@@ -5,6 +5,10 @@ namespace MornUGUI
     [Serializable]
     internal abstract class MornUGUIModuleBase
     {
+        public virtual void OnAwake(MornUGUIControlState parent)
+        {
+        }
+        
         public virtual void OnStateBegin(MornUGUIControlState parent)
         {
         }

@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Arbor;
-using MornFlag;
 using UnityEditor;
 using UnityEngine;
-using VContainer;
 
 namespace MornUGUI
 {
@@ -17,8 +15,6 @@ namespace MornUGUI
         [SerializeField] private MornUGUIFocusModule _focusModule;
         [SerializeField] private MornUGUICancelModule _cancelModule;
         [SerializeField] private MornUGUISoundBlockModule _soundBlockModule;
-        [Inject] private IMornFlagSetter _flagSetter;
-        public IMornFlagSetter FlagSetter => _flagSetter;
         public CanvasGroup CanvasGroup => _canvasGroup;
 
         private IEnumerable<MornUGUIModuleBase> GetModules()
@@ -38,6 +34,11 @@ namespace MornUGUI
             {
                 action(module, this);
             }
+        }
+        
+        private void Awake()
+        {
+            Execute((module, parent) => module.OnAwake(parent));
         }
 
         public override void OnStateBegin()
