@@ -8,6 +8,17 @@ namespace MornUGUI
     {
         [SerializeField] private bool _ignore;
 
+        public override void OnAwake(MornUGUIControlState parent)
+        {
+            if (_ignore)
+            {
+                return;
+            }
+
+            parent.CanvasGroup.interactable = false;
+            parent.CanvasGroup.blocksRaycasts = false;
+        }
+
         public override void OnStateBegin(MornUGUIControlState parent)
         {
             if (_ignore)
