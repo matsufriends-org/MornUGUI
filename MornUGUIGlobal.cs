@@ -26,5 +26,12 @@ namespace MornUGUI
         public AudioClip ButtonSubmitClip => _buttonSubmitClip;
         public AudioClip ButtonCancelClip => _buttonCancelClip;
         public int BlockFrame => _soundBlockFrame;
+        
+        internal void SetDirty(Object obj)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(obj);
+#endif
+        }
     }
 }
