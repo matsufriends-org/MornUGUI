@@ -3,16 +3,15 @@ using UnityEngine;
 
 namespace MornUGUI
 {
-    [RequireComponent(typeof(TextMeshProUGUI))]
     [ExecuteAlways]
     public sealed class MornUGUITextSetter : MonoBehaviour
     {
-        [SerializeField, ReadOnly] public TextMeshProUGUI Text;
+        [SerializeField, ReadOnly] public TMP_Text Text;
         [SerializeField] public MornUGUITextSizeSettings SizeSettings;
         [SerializeField] public MornUGUIFontSettings FontSettings;
         [SerializeField] public MornUGUIMaterialType MaterialType;
 
-        private void Awake()
+        private void OnEnable()
         {
             if (Application.isPlaying)
             {
@@ -20,9 +19,10 @@ namespace MornUGUI
             }
         }
 
+        [ContextMenu("Rebuild")]
         private void Reset()
         {
-            Text = GetComponent<TextMeshProUGUI>();
+            Text = GetComponent<TMP_Text>();
         }
 
         private void Update()
@@ -36,11 +36,11 @@ namespace MornUGUI
         public void Adjust()
         {
             var global = MornUGUIGlobal.I;
-            if (global == null || SizeSettings == null || FontSettings == null || MaterialType == null)
+            if (global == null || SizeSettings == null || FontSettings == null || MaterialType == null || Text == null)
             {
                 return;
             }
-
+            
             var fontChanged = Text.font != FontSettings.Font;
             var autoSizeChanged = Text.enableAutoSizing == false;
             var maxFontSizeChanged = !Mathf.Approximately(Text.fontSizeMax, SizeSettings.FontSize);
