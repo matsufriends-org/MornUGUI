@@ -28,20 +28,20 @@ namespace MornUGUI
             var all = PlayerInput.all;
             if (all.Count == 0)
             {
-                MornUGUIGlobal.I.LogWarning("PlayerInput is not found.");
+                MornUGUIGlobal.LogWarning("PlayerInput is not found.");
                 _cachedInput = null;
                 return;
             }
 
             if (all.Count > 1)
             {
-                MornUGUIGlobal.I.LogWarning("Multiple PlayerInput is found.");
+                MornUGUIGlobal.LogWarning("Multiple PlayerInput is found.");
                 _cachedInput = null;
                 return;
             }
 
             _cachedInput = all[0];
-            if (EventSystem.current.currentSelectedGameObject == _autoFocusTarget)
+            if (_autoFocusTarget != null && EventSystem.current.currentSelectedGameObject == _autoFocusTarget.gameObject)
             {
                 return;
             }
@@ -54,12 +54,12 @@ namespace MornUGUI
                 if (_useCache && _focusCache != null)
                 {
                     EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
-                    MornUGUIGlobal.I.Log("Focus on cache.");
+                    MornUGUIGlobal.Log("Focus on cache.");
                 }
                 else
                 {
                     EventSystem.current.SetSelectedGameObject(_autoFocusTarget.gameObject);
-                    MornUGUIGlobal.I.Log("Focus on target.");
+                    MornUGUIGlobal.Log("Focus on target.");
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace MornUGUI
                 {
                     // マウスに変化する場合はフォーカスを外す
                     EventSystem.current.SetSelectedGameObject(null);
-                    MornUGUIGlobal.I.Log("Focus off by mouse.");
+                    MornUGUIGlobal.Log("Focus off by mouse.");
                 }
                 else if (_cachedScheme == "Mouse")
                 {
@@ -89,7 +89,7 @@ namespace MornUGUI
                         () =>
                         {
                             EventSystem.current.SetSelectedGameObject(focus.gameObject);
-                            MornUGUIGlobal.I.Log("Auto Focus on target by mouse.");
+                            MornUGUIGlobal.Log("Auto Focus on target by mouse.");
                         },
                         parent.destroyCancellationToken).Forget();
                 }
@@ -136,7 +136,7 @@ namespace MornUGUI
                     {
                         _focusCache = mostNear;
                         EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
-                        MornUGUIGlobal.I.Log("Focus on cache near.");
+                        MornUGUIGlobal.Log("Focus on cache near.");
                     }
                 }
             }
