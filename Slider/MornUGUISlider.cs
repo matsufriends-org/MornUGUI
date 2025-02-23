@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,17 +21,20 @@ namespace MornUGUI
         [SerializeField] private MornUGUISliderActiveModule _activeModule;
         [SerializeField] private MornUGUISliderColorModule _colorModule;
         [SerializeField] private MornUGUISliderConvertPointerToSelectModule _convertPointerToSelectModule;
+        [SerializeField] private MornUGUISliderNavigationModule _navigationModule;
         [SerializeField] private MornUGUISliderSoundModule _soundModule;
         public bool IsInteractable { get; set; }
-        public IObservable<Unit>　OnSliderSelected => _slider.OnSelectAsObservable().Select(_ => Unit.Default);
-        public IObservable<Unit> OnSliderSubmit => _slider.OnSubmitAsObservable().Select(_ => Unit.Default);
-        public IObservable<float> OnSliderChanged => _slider.OnValueChangedAsObservable();
+        public Slider.Direction Direction => _slider.direction;
+        public float Value => _slider.value;
+        public float MinValue => _slider.minValue;
+        public float MaxValue => _slider.maxValue;
 
         private IEnumerable<MornUGUISliderModuleBase> GetModules()
         {
             yield return _activeModule;
             yield return _colorModule;
             yield return _convertPointerToSelectModule;
+            yield return _navigationModule;
             yield return _soundModule;
         }
 
@@ -46,6 +48,9 @@ namespace MornUGUI
 
         private void Awake()
         {
+            _slider.OnValueChangedAsObservable()
+                   .Subscribe(_ => Execute((module, parent) => module.OnValueChanged(parent)))
+                   .AddTo(this);
             Execute((module, parent) => module.Awake(parent));
         }
 
@@ -91,8 +96,8 @@ namespace MornUGUI
             {
                 return;
             }
-            
-            Execute((module, parent) => module.OnMove(parent));
+
+            Execute((module, parent) => module.OnMove(parent, eventData));
         }
     }
 }

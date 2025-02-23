@@ -1,10 +1,16 @@
 using System;
+using UnityEngine.EventSystems;
 
 namespace MornUGUI
 {
     [Serializable]
     internal abstract class MornUGUISliderModuleBase
     {
+        public virtual void OnValueChanged(MornUGUISlider parent)
+        {
+            
+        }
+        
         public virtual void Awake(MornUGUISlider parent)
         {
         }
@@ -37,7 +43,7 @@ namespace MornUGUI
         {
         }
 
-        public virtual void OnMove(MornUGUISlider parent)
+        public virtual void OnMove(MornUGUISlider parent, AxisEventData axisEventData)
         {
         }
     }

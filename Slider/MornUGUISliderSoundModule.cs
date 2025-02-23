@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MornUGUI
 {
@@ -28,7 +29,7 @@ namespace MornUGUI
             _audioSource.PlayOneShot(MornUGUIGlobal.I.ButtonCursorClip);
         }
         
-        public override void OnMove(MornUGUISlider parent)
+        public override void OnMove(MornUGUISlider parent, AxisEventData axis)
         {
             if (_ignoreCursor || MornUGUIService.I.IsBlocking)
             {

@@ -4,28 +4,25 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.UI.Scrollbar;
 
 namespace MornUGUI
 {
     [RequireComponent(typeof(Scrollbar))]
-    public sealed class MornUGUIScrollbar : MonoBehaviour,
-        ISelectHandler,
-        IDeselectHandler,
-        ISubmitHandler,
-        IPointerEnterHandler,
-        IPointerExitHandler,
-        IPointerDownHandler,
-        IDragHandler
+    public sealed class MornUGUIScrollbar : MonoBehaviour, IMoveHandler
     {
         [SerializeField] private Scrollbar _scrollbar;
         [SerializeField] private bool _isNegative;
         [SerializeField] private MornUGUIScrollbarActiveModule _activeModule;
+        [SerializeField] private MornUGUIScrollbarNavigationModule _navigationModule;
+        public Direction Direction => _scrollbar.direction;
         public float Value => _scrollbar.value;
         public float Size => _scrollbar.size;
 
         private IEnumerable<MornUGUIScrollbarModuleBase> GetModules()
         {
             yield return _activeModule;
+            yield return _navigationModule;
         }
 
         private void Execute(Action<MornUGUIScrollbarModuleBase, MornUGUIScrollbar> action)
@@ -53,44 +50,9 @@ namespace MornUGUI
             Execute((module, parent) => module.Awake(parent));
         }
 
-        private void Update()
+        public void OnMove(AxisEventData eventData)
         {
-            Execute((module, parent) => module.Update(parent));
-        }
-
-        public void OnSelect(BaseEventData eventData)
-        {
-            Execute((module, parent) => module.OnSelect(parent));
-        }
-
-        public void OnDeselect(BaseEventData eventData)
-        {
-            Execute((module, parent) => module.OnDeselect(parent));
-        }
-
-        public void OnSubmit(BaseEventData eventData)
-        {
-            Execute((module, parent) => module.OnSubmit(parent));
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Execute((module, parent) => module.OnPointerEnter(parent));
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Execute((module, parent) => module.OnPointerExit(parent));
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            Execute((module, parent) => module.OnPointerDown(parent));
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            Execute((module, parent) => module.OnDrag(parent));
+            Execute((module, parent) => module.OnMove(parent, eventData));
         }
     }
 }
