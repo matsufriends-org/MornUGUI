@@ -6,6 +6,6 @@ namespace MornUGUI
     [Serializable]
     public sealed class MornUGUIMaterialType : MornEnumBase
     {
-        public override string[] Values => MornUGUIGlobal.I.MaterialNames;
+        protected override string[] Values => MornUGUIGlobal.I.MaterialNames;
     }
 }
