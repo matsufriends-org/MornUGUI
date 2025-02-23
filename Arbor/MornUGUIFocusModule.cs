@@ -12,6 +12,7 @@ namespace MornUGUI
     [Serializable]
     internal class MornUGUIFocusModule : MornUGUIModuleBase
     {
+        [SerializeField] private bool _ignored;
         [SerializeField] private bool _useCache = true;
         [SerializeField] private Selectable _autoFocusTarget;
         [SerializeField] [ReadOnly] private Selectable _focusCache;
@@ -20,7 +21,7 @@ namespace MornUGUI
 
         public override void OnStateBegin(MornUGUIControlState parent)
         {
-            if (_autoFocusTarget == null)
+            if (_autoFocusTarget == null || _ignored)
             {
                 return;
             }
@@ -66,7 +67,7 @@ namespace MornUGUI
 
         public override void OnStateUpdate(MornUGUIControlState parent)
         {
-            if (_autoFocusTarget == null || _cachedInput == null)
+            if (_autoFocusTarget == null || _cachedInput == null || _ignored)
             {
                 return;
             }
@@ -150,7 +151,7 @@ namespace MornUGUI
 
         public override void OnStateEnd(MornUGUIControlState parent)
         {
-            if (_autoFocusTarget == null)
+            if (_autoFocusTarget == null || _ignored)
             {
                 return;
             }
