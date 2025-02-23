@@ -4,8 +4,8 @@ using MornEnum;
 namespace MornUGUI
 {
     [Serializable]
-    public sealed class MornUGUIMaterialType : MornEnumBase<MornUGUIMaterialTypeGlobal>
+    public sealed class MornUGUIMaterialType : MornEnumBase
     {
-        protected override MornUGUIMaterialTypeGlobal Global => MornUGUIMaterialTypeGlobal.I;
+        public override string[] Values => MornUGUIGlobal.I.MaterialNames;
     }
 }

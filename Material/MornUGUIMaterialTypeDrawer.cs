@@ -5,9 +5,9 @@ using UnityEditor;
 namespace MornUGUI
 {
     [CustomPropertyDrawer(typeof(MornUGUIMaterialType))]
-    public class MornUGUIMaterialTypeDrawer : MornEnumDrawerBase<MornUGUIMaterialTypeGlobal>
+    public class MornUGUIMaterialTypeDrawer : MornEnumDrawerBase
     {
-        protected override MornUGUIMaterialTypeGlobal Global => MornUGUIMaterialTypeGlobal.I;
+        protected override string[] Values => MornUGUIGlobal.I.MaterialNames;
     }
 }
 #endif

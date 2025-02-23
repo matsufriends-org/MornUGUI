@@ -47,8 +47,8 @@ namespace MornUGUI
             if (_rect != null && _rect.sizeDelta != _settings.Size)
             {
                 _rect.sizeDelta = _settings.Size;
-                global.Log("Rect Transform Size Adjusted");
-                global.SetDirty(_rect);
+                MornUGUIGlobal.Log("Rect Transform Size Adjusted");
+                MornUGUIGlobal.SetDirty(_rect);
             }
         }
     }
