@@ -25,5 +25,13 @@ namespace MornUGUI
         public virtual void OnMove(MornUGUIScrollbar parent, AxisEventData axisEventData)
         {
         }
+        
+        public virtual void OnSelect(MornUGUIScrollbar parent)
+        {
+        }
+        
+        public virtual void OnSubmit(MornUGUIScrollbar parent)
+        {
+        }
     }
 }
