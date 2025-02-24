@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace MornUGUI
 {
     [RequireComponent(typeof(Button))]
-    public sealed class MornUGUIButton : MonoBehaviour,
+    public class MornUGUIButton : MonoBehaviour,
         ISelectHandler,
         IDeselectHandler,
         ISubmitHandler,
@@ -23,17 +23,20 @@ namespace MornUGUI
         [SerializeField] private MornUGUIButtonColorModule _colorModule;
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
+        [SerializeField] private MornUGUIButtonToggleModule _toggleModule;
         public bool IsInteractable { get; set; }
         public bool IsNegative => _isNegative;
         public IObservable<Unit>　OnButtonSelected => _button.OnSelectAsObservable().Select(_ => Unit.Default);
         public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
-
+        public MornUGUIButtonToggleModule AsToggle => _toggleModule;
+        
         private IEnumerable<MornUGUIButtonModuleBase> GetModules()
         {
             yield return _activeModule;
             yield return _colorModule;
             yield return _convertPointerToSelectModule;
             yield return _soundModule;
+            yield return _toggleModule;
         }
 
         private void Execute(Action<MornUGUIButtonModuleBase, MornUGUIButton> action)
