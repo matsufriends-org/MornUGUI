@@ -3,7 +3,7 @@ using System;
 namespace MornUGUI
 {
     [Serializable]
-    internal abstract class MornUGUIButtonModuleBase
+    public abstract class MornUGUIButtonModuleBase
     {
         public virtual void Awake(MornUGUIButton parent)
         {

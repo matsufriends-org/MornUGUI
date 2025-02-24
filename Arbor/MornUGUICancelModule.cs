@@ -20,7 +20,7 @@ namespace MornUGUI
             if (MornUGUIGlobal.I.InputCancel.WasPerformedThisFrame())
             {
                 var current = EventSystem.current.currentSelectedGameObject;
-                if (current != _cancelTarget)
+                if (current != _cancelTarget.gameObject)
                 {
                     EventSystem.current.SetSelectedGameObject(_cancelTarget.gameObject);
                 }
