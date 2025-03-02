@@ -29,6 +29,7 @@ namespace MornUGUI
         public IObservable<Unit>　OnButtonSelected => _button.OnSelectAsObservable().Select(_ => Unit.Default);
         public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
         public MornUGUIButtonToggleModule AsToggle => _toggleModule;
+        public MornUGUIButtonActiveModule AsActive => _activeModule;
         
         private IEnumerable<MornUGUIButtonModuleBase> GetModules()
         {

@@ -4,10 +4,13 @@ using UnityEngine;
 namespace MornUGUI
 {
     [Serializable]
-    internal sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
+    public sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;
+        
+        public GameObject Focused => _focused;
+        public GameObject Unfocused => _unfocused;
 
         public override void Awake(MornUGUIButton parent)
         {
