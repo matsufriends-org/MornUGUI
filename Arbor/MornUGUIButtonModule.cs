@@ -35,19 +35,24 @@ namespace MornUGUI
 
         public override void OnEditorInitialize(MornUGUIControlState parent)
         {
-            _buttonStateLinkSets = parent.CanvasGroup.transform.GetComponentsInChildren<Button>().Select(
-                button =>
+            var buttons = parent.CanvasGroup.transform.GetComponentsInChildren<Button>().ToList();
+            foreach (var button in buttons)
+            {
+                if (_buttonStateLinkSets.All(x => x.Button != button))
                 {
-                    var stateLinkSet = new ButtonStateLinkSet
-                    {
-                        Button = button,
-                        StateLink = new StateLink
+                    _buttonStateLinkSets.Add(
+                        new ButtonStateLinkSet
                         {
-                            name = button.name,
-                        }
-                    };
-                    return stateLinkSet;
-                }).ToList();
+                            Button = button,
+                            StateLink = new StateLink
+                            {
+                                name = button.name,
+                            },
+                        });
+                }
+            }
+
+            _buttonStateLinkSets.RemoveAll(x => buttons.All(y => y != x.Button));
         }
     }
 }

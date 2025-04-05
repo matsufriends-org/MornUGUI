@@ -35,7 +35,7 @@ namespace MornUGUI
                 action(module, this);
             }
         }
-        
+
         private void Awake()
         {
             Execute((module, parent) => module.OnAwake(parent));
@@ -68,7 +68,7 @@ namespace MornUGUI
             if (GUILayout.Button("(Editor)Initialize"))
             {
                 controlState.Execute((module, parent) => module.OnEditorInitialize(parent));
-                controlState.RebuildFields();
+                controlState.RebuildStateLinkCache();
                 EditorUtility.SetDirty(target);
             }
         }
