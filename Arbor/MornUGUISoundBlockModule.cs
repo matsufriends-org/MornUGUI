@@ -20,7 +20,7 @@ namespace MornUGUI
             if (blockFrame > 0)
             {
                 _leftFrame = blockFrame;
-                MornUGUIService.I.BlockOn();
+                parent.UGUICtrl.BlockOn();
             }
         }
 
@@ -36,7 +36,7 @@ namespace MornUGUI
                 _leftFrame--;
                 if (_leftFrame == 0)
                 {
-                    MornUGUIService.I.BlockOff();
+                    parent.UGUICtrl.BlockOff();
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace MornUGUI
                 return;
             }
 
-            MornUGUIService.I.BlockOff();
+            parent.UGUICtrl.BlockOff();
         }
     }
 }
