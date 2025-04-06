@@ -4,6 +4,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VContainer;
 using static UnityEngine.UI.Scrollbar;
 
 namespace MornUGUI
@@ -16,6 +17,8 @@ namespace MornUGUI
         [SerializeField] private MornUGUIScrollbarActiveModule _activeModule;
         [SerializeField] private MornUGUIScrollbarNavigationModule _navigationModule;
         [SerializeField] private MornUGUIScrollbarSoundModule _soundModule;
+        [Inject] private MornUGUICtrl _uguiCtrl; 
+        public MornUGUICtrl UGUICtrl => _uguiCtrl;
         public Direction Direction => _scrollbar.direction;
         public float Value => _scrollbar.value;
         public float Size => _scrollbar.size;

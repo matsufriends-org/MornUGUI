@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Arbor;
 using UnityEditor;
 using UnityEngine;
+using VContainer;
 
 namespace MornUGUI
 {
@@ -15,6 +16,8 @@ namespace MornUGUI
         [SerializeField] private MornUGUIFocusModule _focusModule;
         [SerializeField] private MornUGUICancelModule _cancelModule;
         [SerializeField] private MornUGUISoundBlockModule _soundBlockModule;
+        [Inject] private MornUGUICtrl _mornUGUICtrl;
+        public MornUGUICtrl UGUICtrl => _mornUGUICtrl;
         public CanvasGroup CanvasGroup => _canvasGroup;
 
         private IEnumerable<MornUGUIModuleBase> GetModules()

@@ -5,6 +5,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VContainer;
 
 namespace MornUGUI
 {
@@ -24,6 +25,8 @@ namespace MornUGUI
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
         [SerializeField] private MornUGUIButtonToggleModule _toggleModule;
+        [Inject] private MornUGUICtrl _uguiCtrl; 
+        public MornUGUICtrl UGUICtrl => _uguiCtrl;
         public bool IsInteractable { get; set; }
         public bool IsNegative => _isNegative;
         public IObservable<Unit>　OnButtonSelected => _button.OnSelectAsObservable().Select(_ => Unit.Default);
