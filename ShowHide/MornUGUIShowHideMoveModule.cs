@@ -16,6 +16,8 @@ namespace MornLib
 
         [SerializeField] private ReferenceType _referenceType;
         [SerializeField, EnableIf(nameof(IsCustom))] private RectTransform _target;
+        [SerializeField] private bool _hasSpawnPosition;
+        [SerializeField, EnableIf(nameof(_hasSpawnPosition))] private Vector2 _spawnPosition;
         [SerializeField] private Vector2 _showPosition;
         [SerializeField] private Vector2 _hidePosition;
         private CancellationTokenSource _cts;
@@ -25,7 +27,7 @@ namespace MornLib
         public override void OnAwake(MornUGUIShowHideBase parent)
         {
             if (IsAuto) _target = parent.GetComponent<RectTransform>();
-            _target.anchoredPosition = _hidePosition;
+            _target.anchoredPosition = _hasSpawnPosition ? _spawnPosition : _hidePosition;
         }
 
         public override void OnValidate(MornUGUIShowHideBase parent)
@@ -45,6 +47,11 @@ namespace MornLib
 
         public override async UniTask ShowAsync(CancellationToken ct = default)
         {
+            if (_hasSpawnPosition)
+            {
+                _target.anchoredPosition = _spawnPosition;
+            }
+
             await MoveAsync(true, _target.anchoredPosition, _showPosition, ct);
         }
 
