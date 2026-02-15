@@ -15,10 +15,10 @@ namespace MornLib
         [SerializeField] private TMP_Text _text;
         private IMornUGUISelector _parent;
 
-        public void Initialize(IMornUGUISelector parent)
+        public void Initialize(IMornUGUISelector parent, IMornUGUIObject owner)
         {
             _parent = parent;
-            MornLocalizeCore.OnLanguageChanged.Subscribe(_ => OnValueChanged()).AddTo(DestroyCancellationToken);
+            MornLocalizeCore.OnLanguageChanged.Subscribe(_ => OnValueChanged()).AddTo(owner.DestroyCancellationToken);
         }
 
         public override void OnEnable()

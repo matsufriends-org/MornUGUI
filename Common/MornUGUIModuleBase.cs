@@ -1,11 +1,9 @@
-using System.Threading;
 using UnityEngine.EventSystems;
 
 namespace MornLib
 {
     internal abstract class MornUGUIModuleBase
     {
-        public CancellationToken DestroyCancellationToken { protected get; set; }
 
         public virtual void Awake()
         {

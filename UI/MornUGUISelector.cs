@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,7 @@ using static UnityEngine.UI.Scrollbar;
 namespace MornLib
 {
     public sealed class MornUGUISelector : MornUGUIBase,
+        IMornUGUIObject,
         IMornUGUISelector,
         IMornUGUIInteractable,
         IMornUGUIMovable,
@@ -49,7 +51,7 @@ namespace MornLib
             result.Add(_soundModule);
 #if USE_MORN_LOCALIZE
             result.Add(_textModule);
-            _textModule.Initialize(this);
+            _textModule.Initialize(this, this);
 #endif
             return result;
         }
@@ -58,6 +60,9 @@ namespace MornLib
         private bool IsAtMax => Value >= _valueRange.y;
         Vector2Int IMornUGUISelector.ValueRange => _valueRange;
         int IMornUGUISelector.Value => Value;
+        Transform IMornUGUIObject.Transform => transform;
+        GameObject IMornUGUIObject.GameObject => gameObject;
+        CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
         bool IMornUGUIInteractable.IsLocked => false;
         bool IMornUGUIInteractable.IsNegative => false;
         bool IMornUGUIMovable.IsHorizontal => _direction is Direction.LeftToRight or Direction.RightToLeft;

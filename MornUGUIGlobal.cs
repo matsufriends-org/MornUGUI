@@ -18,6 +18,7 @@ namespace MornLib
         [SerializeField] private AudioClip _buttonCancelClip;
         [Header("SoundBlock")]
         [SerializeField] private int _soundBlockFrame = 3;
+        [SerializeField] private float _sliderSoundInterval = 0.3f;
         [Header("Materials")]
         [SerializeField] private string[] _materialNames;
         public InputAction InputSubmit => _submit.action;
@@ -27,6 +28,7 @@ namespace MornLib
         public AudioClip ButtonSubmitClip => _buttonSubmitClip;
         public AudioClip ButtonCancelClip => _buttonCancelClip;
         public int BlockFrame => _soundBlockFrame;
+        public float SliderSoundInterval => _sliderSoundInterval;
         public string[] MaterialNames => _materialNames;
 
         internal static void SetDirty(Object obj)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace MornLib
@@ -19,6 +20,7 @@ namespace MornLib
         bool IMornUGUIInteractable.IsNegative => IsNegative;
         Transform IMornUGUIObject.Transform => transform;
         GameObject IMornUGUIObject.GameObject => gameObject;
+        CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
 
         internal override List<MornUGUIModuleBase> CreateModules()
         {

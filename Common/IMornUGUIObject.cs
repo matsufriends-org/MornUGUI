@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 namespace MornLib
@@ -6,5 +7,6 @@ namespace MornLib
     {
         Transform Transform { get; }
         GameObject GameObject { get; }
+        CancellationToken DestroyCancellationToken { get; }
     }
 }

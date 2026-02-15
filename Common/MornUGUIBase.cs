@@ -14,11 +14,6 @@ namespace MornLib
             {
                 if (_modules != null) return _modules;
                 _modules = CreateModules();
-                foreach (var module in _modules)
-                {
-                    module.DestroyCancellationToken = destroyCancellationToken;
-                }
-
                 return _modules;
             }
         }

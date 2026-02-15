@@ -6,53 +6,57 @@ using UnityEngine.UI;
 namespace MornLib
 {
     [Serializable]
-    internal sealed class MornUGUISliderNavigationModule : MornUGUISliderModuleBase
+    internal sealed class MornUGUISliderNavigationModule : MornUGUIModuleBase
     {
         [SerializeField] private Selectable _up;
         [SerializeField] private Selectable _down;
         [SerializeField] private Selectable _left;
         [SerializeField] private Selectable _right;
+        private MornUGUISlider _slider;
         private float _lastValue;
 
-        public override void OnValueChanged(MornUGUISlider parent)
+        public void Initialize(MornUGUISlider slider)
         {
-            _lastValue = parent.Value;
+            _slider = slider;
         }
 
-        public override void OnMove(MornUGUISlider parent, AxisEventData axisEventData)
+        public override void OnValueChanged()
         {
-            switch (parent.Direction)
+            _lastValue = _slider.Value;
+        }
+
+        public override void OnMove(AxisEventData axisEventData)
+        {
+            switch (_slider.Direction)
             {
                 case Slider.Direction.LeftToRight:
-                    MoveHorizontal(parent, axisEventData, true);
+                    MoveHorizontal(axisEventData, true);
                     break;
                 case Slider.Direction.RightToLeft:
-                    MoveHorizontal(parent, axisEventData, false);
+                    MoveHorizontal(axisEventData, false);
                     break;
                 case Slider.Direction.BottomToTop:
-                    MoveVertical(parent, axisEventData, true);
+                    MoveVertical(axisEventData, true);
                     break;
                 case Slider.Direction.TopToBottom:
-                    MoveVertical(parent, axisEventData, false);
+                    MoveVertical(axisEventData, false);
                     break;
             }
         }
 
-        private void MoveHorizontal(MornUGUISlider parent, AxisEventData axisEventData, bool isToRight)
+        private void MoveHorizontal(AxisEventData axisEventData, bool isToRight)
         {
             var toLeft = axisEventData.moveDir == MoveDirection.Left && _left != null;
             var toRight = axisEventData.moveDir == MoveDirection.Right && _right != null;
             if (toLeft || toRight)
             {
-                var atMin = Mathf.Approximately(parent.Value, parent.MinValue);
-                var atMax = Mathf.Approximately(parent.Value, parent.MaxValue);
-                
+                var atMin = Mathf.Approximately(_slider.Value, _slider.MinValue);
+                var atMax = Mathf.Approximately(_slider.Value, _slider.MaxValue);
                 var atLeft = isToRight ? atMin : atMax;
                 var atRight = isToRight ? atMax : atMin;
-                
                 var canLeft = toLeft && atLeft;
                 var canRight = toRight && atRight;
-                if ((canLeft || canRight) && Mathf.Approximately(parent.Value, _lastValue))
+                if ((canLeft || canRight) && Mathf.Approximately(_slider.Value, _lastValue))
                 {
                     var nextSelectable = canLeft ? _left : _right;
                     EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
@@ -60,21 +64,19 @@ namespace MornLib
             }
         }
 
-        private void MoveVertical(MornUGUISlider parent, AxisEventData axisEventData, bool isTop)
+        private void MoveVertical(AxisEventData axisEventData, bool isTop)
         {
             var toUp = axisEventData.moveDir == MoveDirection.Up && _up != null;
             var toDown = axisEventData.moveDir == MoveDirection.Down && _down != null;
             if (toUp || toDown)
             {
-                var atMin = Mathf.Approximately(parent.Value, parent.MinValue);
-                var atMax = Mathf.Approximately(parent.Value, parent.MaxValue);
-                
+                var atMin = Mathf.Approximately(_slider.Value, _slider.MinValue);
+                var atMax = Mathf.Approximately(_slider.Value, _slider.MaxValue);
                 var atDown = isTop ? atMin : atMax;
                 var atUp = isTop ? atMax : atMin;
-                
                 var canUp = toUp && atUp;
                 var canDown = toDown && atDown;
-                if ((canUp || canDown) && Mathf.Approximately(parent.Value, _lastValue))
+                if ((canUp || canDown) && Mathf.Approximately(_slider.Value, _lastValue))
                 {
                     var nextSelectable = canUp ? _up : _down;
                     EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
