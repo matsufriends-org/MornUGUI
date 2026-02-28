@@ -35,6 +35,12 @@ namespace MornLib
 
         protected virtual void Update()
         {
+            if (!interactable && EventSystem.current != null &&
+                EventSystem.current.currentSelectedGameObject == gameObject)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+
             Execute(module => module.Update());
         }
 
@@ -52,6 +58,7 @@ namespace MornLib
 
         public override void OnSelect(BaseEventData eventData)
         {
+            if (!interactable) return;
             base.OnSelect(eventData);
             Execute(module => module.OnSelect());
         }
@@ -64,12 +71,14 @@ namespace MornLib
 
         public override void OnMove(AxisEventData eventData)
         {
+            if (!interactable) return;
             base.OnMove(eventData);
             Execute(module => module.OnMove(eventData));
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            if (!interactable) return;
             base.OnPointerEnter(eventData);
             Execute(module => module.OnPointerEnter(eventData));
         }
@@ -82,17 +91,20 @@ namespace MornLib
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            if (!interactable) return;
             base.OnPointerDown(eventData);
             Execute(module => module.OnPointerDown(eventData));
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!interactable) return;
             Execute(module => module.OnPointerClick(eventData));
         }
 
         public void OnSubmit(BaseEventData eventData)
         {
+            if (!interactable) return;
             Execute(module => module.OnSubmit());
         }
 

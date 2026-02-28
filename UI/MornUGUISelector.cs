@@ -26,6 +26,7 @@ namespace MornLib
         [SerializeField] private MornUGUIColorModule _colorModule;
         [SerializeField] private MornUGUILimitNavigationModule _limitNavigationModule;
         [SerializeField] private MornUGUIArrowSoundModule _soundModule;
+        [SerializeField] private MornUGUIMirrorModule _mirrorModule;
 #if USE_MORN_LOCALIZE
         [SerializeField] private MornUGUISelectorTextModule _textModule;
 #endif
@@ -49,6 +50,8 @@ namespace MornLib
             result.Add(_limitNavigationModule);
             _soundModule.Initialize(this);
             result.Add(_soundModule);
+            _mirrorModule.Initialize(this);
+            result.Add(_mirrorModule);
 #if USE_MORN_LOCALIZE
             result.Add(_textModule);
             _textModule.Initialize(this, this);

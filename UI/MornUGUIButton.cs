@@ -15,6 +15,7 @@ namespace MornLib
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUIScaleModule _scalerModule = new();
         [SerializeField] private MornUGUISoundModule _soundModule = new();
+        [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         private List<MornUGUIModuleBase> _module;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
@@ -36,6 +37,8 @@ namespace MornLib
             _module.Add(_scalerModule);
             _soundModule.Initialize(this);
             _module.Add(_soundModule);
+            _mirrorModule.Initialize(this);
+            _module.Add(_mirrorModule);
             return _module;
         }
     }
