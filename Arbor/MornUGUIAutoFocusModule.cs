@@ -1,4 +1,4 @@
-#if USE_ARBOR
+#if USE_ARBOR && USE_INPUTSYSTEM
 using System;
 using System.Collections.Generic;
 using System.Linq;

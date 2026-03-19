@@ -25,6 +25,7 @@ namespace MornLib
             var current = EventSystem.current.currentSelectedGameObject;
             // AutoFocusModule側でまずはフォーカスが合うため、nullの時は処理しない
             if (current == null) return;
+#if USE_INPUTSYSTEM
             if (MornUGUIGlobal.I.InputCancel.WasPerformedThisFrame())
             {
                 if (current != _target.gameObject)
@@ -39,6 +40,7 @@ namespace MornLib
                         ExecuteEvents.submitHandler);
                 }
             }
+#endif
         }
     }
 }

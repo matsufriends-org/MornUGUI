@@ -11,7 +11,9 @@ namespace MornLib
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private MornUGUIAnimationModule _animationModule;
+#if USE_INPUTSYSTEM
         [SerializeField] private MornUGUIAutoFocusModule _autoFocusModule;
+#endif
         [SerializeField] private MornUGUILinkModule _linkModule;
         [SerializeField] private MornUGUICancelModule _cancelModule;
         [SerializeField] private MornUGUICanvasFadeModule _canvasFadeModule;
@@ -30,8 +32,10 @@ namespace MornLib
                 _modules.Add(_soundBlockModule);
                 _animationModule.Initialize(this);
                 _modules.Add(_animationModule);
+#if USE_INPUTSYSTEM
                 _autoFocusModule.Initialize(this);
                 _modules.Add(_autoFocusModule);
+#endif
                 _linkModule.Initialize(this);
                 _modules.Add(_linkModule);
                 _cancelModule.Initialize(this);
