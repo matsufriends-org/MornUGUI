@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UI;
 
 namespace MornUGUI
@@ -37,13 +38,6 @@ namespace MornUGUI
                 return;
             }
 
-            if (all.Count > 1)
-            {
-                MornUGUIGlobal.LogWarning("Multiple PlayerInput is found.");
-                _cachedInput = null;
-                return;
-            }
-
             _cachedInput = all[0];
             if (_autoFocusTarget != null
                 && EventSystem.current.currentSelectedGameObject == _autoFocusTarget.gameObject)
@@ -71,7 +65,13 @@ namespace MornUGUI
 
         public override void OnStateUpdate(MornUGUIControlState parent)
         {
-            if (_autoFocusTarget == null || _cachedInput == null || _ignored)
+            if (_autoFocusTarget == null || _ignored)
+            {
+                return;
+            }
+
+            var all = PlayerInput.all;
+            if (all.Count == 0)
             {
                 return;
             }
@@ -79,20 +79,21 @@ namespace MornUGUI
             // Navigate入力があった際にキャッシュを選択
             if (EventSystem.current.currentSelectedGameObject == null)
             {
-                if (_cachedInput.actions["Navigate"].controls.Any(x => x.IsPressed()))
+                if (AnyPlayerAction(all, "Navigate", a => a.controls.Any(x => x.IsPressed())))
                 {
                     AutoFocus();
                     _isPointing = false;
-                }else if (_cachedInput.actions["Submit"].WasPerformedThisFrame())
+                }
+                else if (AnyPlayerAction(all, "Submit", a => a.WasPerformedThisFrame()))
                 {
                     AutoFocus();
                     _isPointing = false;
                 }
             }
 
-            if (_cachedInput.actions["Point"].WasPerformedThisFrame())
+            if (AnyPlayerAction(all, "Point", a => a.WasPerformedThisFrame()))
             {
-                var newPoint = _cachedInput.actions["Point"].ReadValue<Vector2>();
+                var newPoint = ReadAnyPlayerValue<Vector2>(all, "Point");
                 if (_isPointing)
                 {
                     _cachedPointingPos = newPoint;
@@ -157,6 +158,43 @@ namespace MornUGUI
                     }
                 }
             }
+        }
+
+        private static bool AnyPlayerAction(
+            ReadOnlyArray<PlayerInput> all,
+            string actionName,
+            Func<InputAction, bool> predicate)
+        {
+            foreach (var playerInput in all)
+            {
+                var action = playerInput.actions[actionName];
+                if (action != null && predicate(action))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static T ReadAnyPlayerValue<T>(
+            ReadOnlyArray<PlayerInput> all,
+            string actionName) where T : struct
+        {
+            foreach (var playerInput in all)
+            {
+                var action = playerInput.actions[actionName];
+                if (action != null)
+                {
+                    var value = action.ReadValue<T>();
+                    if (!value.Equals(default(T)))
+                    {
+                        return value;
+                    }
+                }
+            }
+
+            return default;
         }
 
         private bool IsFocusable(Selectable selectable)
