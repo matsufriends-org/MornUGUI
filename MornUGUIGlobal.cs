@@ -36,10 +36,5 @@ namespace MornLib
         public int BlockFrame => _soundBlockFrame;
         public float SliderSoundInterval => _sliderSoundInterval;
         public string[] MaterialNames => _materialNames;
-
-        internal static void SetDirty(Object obj)
-        {
-            I.SetDirtyInternal(obj);
-        }
     }
 }

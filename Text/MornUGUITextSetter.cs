@@ -60,7 +60,7 @@ namespace MornLib
                     _text.font = FontSettings.Font;
                     _text.fontMaterial = FontSettings.GetMaterial(MaterialType);
                     MornUGUIGlobal.Logger.Log("Font/Material Adjusted");
-                    MornUGUIGlobal.SetDirty(_text);
+                    MornGlobalUtil.SetDirty(_text);
                 }
             }
 
@@ -79,7 +79,7 @@ namespace MornLib
                     _text.characterSpacing = SizeSettings.CharacterSpacing;
                     _text.lineSpacing = SizeSettings.LineSpacing;
                     MornUGUIGlobal.Logger.Log("FontSize Adjusted");
-                    MornUGUIGlobal.SetDirty(_text);
+                    MornGlobalUtil.SetDirty(_text);
                 }
             }
         }

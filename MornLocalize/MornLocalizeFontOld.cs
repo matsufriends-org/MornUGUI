@@ -68,7 +68,7 @@ namespace MornLib
                 _setter.FontSettings = fontSettings;
                 _setter.MaterialType.Index = _settings.MaterialType.Index;
                 _setter.Adjust();
-                MornUGUIGlobal.SetDirty(_setter);
+                MornGlobalUtil.SetDirty(_setter);
             }
         }
     }

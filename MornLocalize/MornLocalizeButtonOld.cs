@@ -48,7 +48,7 @@ namespace MornLib
                     {
                         text.Text = _text;
                         text.Adjust(global.DebugLanguageKey);
-                        MornUGUIGlobal.SetDirty(text);
+                        MornGlobalUtil.SetDirty(text);
                     }
                 }
             }
@@ -61,7 +61,7 @@ namespace MornLib
                     {
                         font.Settings = _fontSettings;
                         font.Adjust(global.DebugLanguageKey);
-                        MornUGUIGlobal.SetDirty(font);
+                        MornGlobalUtil.SetDirty(font);
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace MornLib
                     {
                         setter.SizeSettings = _sizeSettings;
                         setter.Adjust();
-                        MornUGUIGlobal.SetDirty(setter);
+                        MornGlobalUtil.SetDirty(setter);
                     }
                 }
             }

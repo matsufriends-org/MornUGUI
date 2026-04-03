@@ -48,7 +48,7 @@ namespace MornLib
             {
                 _rect.sizeDelta = _settings.Size;
                 MornUGUIGlobal.Logger.Log("Rect Transform Size Adjusted");
-                MornUGUIGlobal.SetDirty(_rect);
+                MornGlobalUtil.SetDirty(_rect);
             }
         }
     }

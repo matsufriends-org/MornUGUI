@@ -66,7 +66,7 @@ namespace MornLib
                 _setter.InheritedFontSettings = fontSettings;
                 _setter.InheritedMaterialType.Index = _settings.MaterialType.Index;
                 _setter.Adjust();
-                MornUGUIGlobal.SetDirty(_setter);
+                MornGlobalUtil.SetDirty(_setter);
             }
         }
     }
