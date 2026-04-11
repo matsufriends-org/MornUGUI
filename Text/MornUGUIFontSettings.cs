@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MornEditor;
+using MornLib;
 using TMPro;
 using UnityEngine;
 
