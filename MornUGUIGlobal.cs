@@ -1,4 +1,4 @@
-﻿using MornGlobal;
+﻿using MornLib;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,22 +29,22 @@ namespace MornUGUI
 
         internal static void Log(string message)
         {
-            I.LogInternal(message);
+            Logger.Log(message);
         }
 
         internal static void LogWarning(string message)
         {
-            I.LogWarningInternal(message);
+            Logger.LogWarning(message);
         }
 
         internal static void LogError(string message)
         {
-            I.LogErrorInternal(message);
+            Logger.LogError(message);
         }
 
         internal static void SetDirty(Object obj)
         {
-            I.SetDirtyInternal(obj);
+            MornGlobalUtil.SetDirty(obj);
         }
     }
 }
