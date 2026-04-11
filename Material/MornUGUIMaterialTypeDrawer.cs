@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-using MornEnum;
+using MornLib;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,5 +1,5 @@
 using System;
-using MornEnum;
+using MornLib;
 
 namespace MornUGUI
 {
