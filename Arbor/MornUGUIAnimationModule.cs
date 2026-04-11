@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using MornLib;
-using MornUtil;
 using UnityEngine;
 
 namespace MornUGUI
