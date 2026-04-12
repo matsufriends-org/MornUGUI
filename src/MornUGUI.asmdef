@@ -27,6 +27,11 @@
             "name": "com.caitsithware.arbor",
             "expression": "",
             "define": "USE_ARBOR"
+        },
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "",
+            "define": "USE_INPUTSYSTEM"
         }
     ],
     "noEngineReferences": false
