@@ -32,6 +32,11 @@
             "name": "com.unity.inputsystem",
             "expression": "",
             "define": "USE_INPUTSYSTEM"
+        },
+        {
+            "name": "com.tsukumistudio.mornlocalize",
+            "expression": "",
+            "define": "USE_MORN_LOCALIZE"
         }
     ],
     "noEngineReferences": false
