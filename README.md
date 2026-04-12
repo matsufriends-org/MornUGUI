@@ -1,49 +1,42 @@
 # MornUGUI
 
+<p align="center">
+  <img src="src/Editor/MornUGUI.png" alt="MornUGUI" width="640" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/license/TsukumiStudio/MornUGUI" alt="License" />
+</p>
+
 ## 概要
 
-UIパーツ管理・制御システム。モジュール設計で柔軟なカスタマイズが可能なライブラリ。
+Unity UGUI の拡張フレームワーク。Selectable ベースの Button / Slider / Selector、モジュール式エフェクト (色・音・スケール)、スクロール・ナビゲーション制御を提供する。
 
-## 依存関係
+## 導入方法
 
-| 種別 | 名前 |
-|------|------|
-| 外部パッケージ | Unity Input System |
-| Mornライブラリ | MornLib, MornSound（オプション）, MornLocalize（オプション） |
+Unity Package Manager で以下の Git URL を追加:
 
-## 使い方
-
-### カスタムUIの作成
-
-```csharp
-public class MyButton : MornUGUIBase
-{
-    protected override List<MornUGUIModuleBase> CreateModules()
-    {
-        return new List<MornUGUIModuleBase>
-        {
-            new MornUGUIColorModule(),
-            new MornUGUISoundModule(),
-            new MornUGUIScaleModule(),
-        };
-    }
-}
+```
+https://github.com/TsukumiStudio/MornUGUI.git?path=src#1.0.0
 ```
 
-### 利用可能なモジュール
+`Window > Package Manager > + > Add package from git URL...` に貼り付けてください。
 
-| モジュール | 機能 |
-|-----------|------|
-| MornUGUIColorModule | 色変化 |
-| MornUGUISoundModule | サウンド再生 |
-| MornUGUIScaleModule | スケール変化 |
-| MornUGUIArrowModule | UIナビゲーション |
+### 依存パッケージ
 
-### 対応UI要素
+- [UniRx](https://github.com/neuecc/UniRx) (`com.neuecc.unirx`)
+- [UniTask](https://github.com/Cysharp/UniTask) (`com.cysharp.unitask`)
+- [TextMeshPro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@latest) (`com.unity.textmeshpro`)
+- [Unity InputSystem](https://docs.unity3d.com/Packages/com.unity.inputsystem@latest) (`com.unity.inputsystem`)
+- [Arbor](https://arbor.caitsithware.com/) (Arbor 連携用、任意)
+- [MornGlobal](https://github.com/TsukumiStudio/MornGlobal) (`com.tsukumistudio.mornglobal`)
+- [MornUtil](https://github.com/TsukumiStudio/MornUtil) (`com.tsukumistudio.mornutil`)
+- [MornEditor](https://github.com/TsukumiStudio/MornEditor) (`com.tsukumistudio.morneditor`)
+- [MornEase](https://github.com/TsukumiStudio/MornEase) (`com.tsukumistudio.mornease`)
+- [MornEnum](https://github.com/TsukumiStudio/MornEnum) (`com.tsukumistudio.mornenum`)
+- [MornLocalize](https://github.com/TsukumiStudio/MornLocalize) (`com.tsukumistudio.mornlocalize`)
+- [MornSound](https://github.com/TsukumiStudio/MornSound) (`com.tsukumistudio.mornsound`)
 
-- Button
-- Slider
-- Scrollbar
-- ScrollRect
-- Selector
-- ShowHide（フェード/移動アニメーション対応）
+## ライセンス
+
+[The Unlicense](LICENSE)

@@ -2,7 +2,7 @@ using UnityEngine.EventSystems;
 
 namespace MornLib
 {
-    internal abstract class MornUGUIModuleBase
+    public abstract class MornUGUIModuleBase
     {
 
         public virtual void Awake()
