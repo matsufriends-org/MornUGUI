@@ -9,10 +9,8 @@ namespace MornLib
     [Serializable]
     internal class MornUGUICancelModule : MornUGUIStateModuleBase
     {
-        [SerializeField] private bool _isActive;
-        [SerializeField, ShowIf(nameof(IsActive))] private Selectable _target;
+        [SerializeField] private Selectable _target;
         private MornUGUIControlState _parent;
-        private bool IsActive => _isActive;
 
         public override void Initialize(MornUGUIControlState parent)
         {
@@ -21,7 +19,7 @@ namespace MornLib
 
         public override void OnStateUpdate()
         {
-            if (!_isActive || _target == null || !_target.IsInteractable()) return;
+            if (_target == null || !_target.IsInteractable()) return;
             var current = EventSystem.current.currentSelectedGameObject;
             // AutoFocusModule側でまずはフォーカスが合うため、nullの時は処理しない
             if (current == null) return;

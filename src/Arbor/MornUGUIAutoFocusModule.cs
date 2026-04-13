@@ -15,8 +15,7 @@ namespace MornLib
     [Serializable]
     internal class MornUGUIAutoFocusModule : MornUGUIStateModuleBase
     {
-        [SerializeField] private bool _isActive = true;
-        [SerializeField, ShowIf(nameof(IsActive))] private Selectable _target;
+        [SerializeField] private Selectable _target;
         [SerializeField, ShowIf(nameof(IsActive))] private bool _useCache = true;
         [SerializeField, ShowIf(nameof(IsActive))] private bool _findAdjacent;
         [SerializeField, ReadOnly] private Selectable _focusCache;
@@ -24,7 +23,7 @@ namespace MornLib
         private bool _isPointing;
         private Vector2? _cachedPointingPos;
         private MornUGUIControlState _parent;
-        private bool IsActive => _isActive;
+        private bool IsActive => _target != null;
 
         public override void Initialize(MornUGUIControlState parent)
         {
@@ -33,7 +32,7 @@ namespace MornLib
 
         public override void OnStateBegin()
         {
-            if (_target == null || !_isActive) return;
+            if (_target == null) return;
             var all = PlayerInput.all;
             if (all.Count == 0)
             {
@@ -75,7 +74,7 @@ namespace MornLib
 
         public override void OnStateUpdate()
         {
-            if (_target == null || _cachedInput == null || !_isActive) return;
+            if (_target == null || _cachedInput == null) return;
 
             // Navigate入力があった際にキャッシュを選択
             if (EventSystem.current.currentSelectedGameObject == null)
@@ -175,7 +174,7 @@ namespace MornLib
 
         public override void OnStateEnd()
         {
-            if (_target == null || !_isActive) return;
+            if (_target == null) return;
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
