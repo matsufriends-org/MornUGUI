@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ namespace MornLib
 {
     public abstract class MornUGUIBase : Selectable, ISubmitHandler, IPointerClickHandler
     {
+        [SerializeField] private bool _unfocusOnNotInteractable = true;
         private List<MornUGUIModuleBase> _modules;
         private List<MornUGUIModuleBase> Modules
         {
@@ -35,7 +37,7 @@ namespace MornLib
 
         protected virtual void Update()
         {
-            if (!IsInteractable() && EventSystem.current != null &&
+            if (_unfocusOnNotInteractable && !IsInteractable() && EventSystem.current != null &&
                 EventSystem.current.currentSelectedGameObject == gameObject)
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -66,6 +68,8 @@ namespace MornLib
         public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
+            // interactable=falseによる非フォーカス化を望まない場合、モジュールへのOnDeselect伝搬も抑制して見た目を維持
+            if (!_unfocusOnNotInteractable && !IsInteractable()) return;
             Execute(module => module.OnDeselect());
         }
 
