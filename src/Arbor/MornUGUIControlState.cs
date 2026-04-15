@@ -32,6 +32,9 @@ namespace MornLib
                 _modules.Add(_soundBlockModule);
                 _animationModule.Initialize(this);
                 _modules.Add(_animationModule);
+                // CanvasInteractableはAutoFocusより前に実行し、フォーカス時点でinteractableをtrueにしておく
+                _canvasInteractableModule.Initialize(this);
+                _modules.Add(_canvasInteractableModule);
 #if USE_INPUTSYSTEM
                 _autoFocusModule.Initialize(this);
                 _modules.Add(_autoFocusModule);
@@ -42,8 +45,6 @@ namespace MornLib
                 _modules.Add(_cancelModule);
                 _canvasFadeModule.Initialize(this);
                 _modules.Add(_canvasFadeModule);
-                _canvasInteractableModule.Initialize(this);
-                _modules.Add(_canvasInteractableModule);
                 return _modules;
             }
         }
