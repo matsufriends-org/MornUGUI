@@ -17,7 +17,7 @@ Unity UGUI の拡張フレームワーク。Selectable ベースの Button / Sli
 Unity Package Manager で以下の Git URL を追加:
 
 ```
-https://github.com/TsukumiStudio/MornUGUI.git?path=src#1.0.0
+https://github.com/TsukumiStudio/MornUGUI.git?path=src#1.1.0
 ```
 
 `Window > Package Manager > + > Add package from git URL...` に貼り付けてください。

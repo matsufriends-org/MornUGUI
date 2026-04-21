@@ -1,6 +1,6 @@
 {
   "name": "com.tsukumistudio.mornugui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "MornUGUI",
   "description": "Unity UGUI の拡張フレームワーク。Selectable ベースの Button / Slider / Selector、モジュール式エフェクト (色・音・スケール)、スクロール・ナビゲーション制御を提供する。",
   "unity": "6000.0",
