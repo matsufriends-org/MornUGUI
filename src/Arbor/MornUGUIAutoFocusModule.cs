@@ -41,14 +41,8 @@ namespace MornLib
                 return;
             }
 
-            if (all.Count > 1)
-            {
-                MornUGUIGlobal.Logger.LogWarning("Multiple PlayerInput is found.");
-                _cachedInput = null;
-                return;
-            }
-
-            _cachedInput = all[0];
+            // 複数 PlayerInput 接続時は playerIndex 0 (1P) を UI 操作用として採用
+            _cachedInput = all.FirstOrDefault(p => p.playerIndex == 0) ?? all[0];
             if (_target != null && EventSystem.current.currentSelectedGameObject == _target.gameObject)
             {
                 return;
