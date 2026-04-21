@@ -32,17 +32,19 @@ namespace MornLib
 
         public override void OnStateBegin()
         {
-            if (_target == null) return;
-            var all = PlayerInput.all;
-            if (all.Count == 0)
+            if (_target == null)
             {
-                MornUGUIGlobal.Logger.LogWarning("PlayerInput is not found.");
-                _cachedInput = null;
                 return;
             }
 
-            // 複数 PlayerInput 接続時は playerIndex 0 (1P) を UI 操作用として採用
-            _cachedInput = all.FirstOrDefault(p => p.playerIndex == 0) ?? all[0];
+            MornInputProvider.OnPlayerInputsChanged += RefreshCachedInput;
+            RefreshCachedInput();
+            if (_cachedInput == null)
+            {
+                MornUGUIGlobal.Logger.LogWarning("PlayerInput is not found.");
+                return;
+            }
+
             if (_target != null && EventSystem.current.currentSelectedGameObject == _target.gameObject)
             {
                 return;
@@ -50,6 +52,12 @@ namespace MornLib
 
             // 初回の自動フォーカス
             AutoFocus();
+        }
+
+        /// <summary>MornInputProvider の join/leave 通知でのみ再計算 (毎 frame チェックはしない)</summary>
+        private void RefreshCachedInput()
+        {
+            _cachedInput = PlayerInput.all.OrderBy(p => p.playerIndex).FirstOrDefault();
         }
 
         private void AutoFocus()
@@ -68,14 +76,27 @@ namespace MornLib
 
         public override void OnStateUpdate()
         {
-            if (_target == null || _cachedInput == null) return;
+            if (_target == null)
+            {
+                return;
+            }
+
+            if (_cachedInput == null)
+            {
+                return;
+            }
+
+            var navigate = _cachedInput.actions.FindAction("Navigate");
+            var submit = _cachedInput.actions.FindAction("Submit");
+            var cancel = _cachedInput.actions.FindAction("Cancel");
+            var point = _cachedInput.actions.FindAction("Point");
 
             // Navigate入力があった際にキャッシュを選択
             if (EventSystem.current.currentSelectedGameObject == null)
             {
-                var anyNavigate = _cachedInput.actions["Navigate"].controls.Any(x => x.IsPressed());
-                var anySubmit = _cachedInput.actions["Submit"].controls.Any(x => x.IsPressed());
-                var anyCancel = _cachedInput.actions["Cancel"].controls.Any(x => x.IsPressed());
+                var anyNavigate = navigate != null && navigate.controls.Any(x => x.IsPressed());
+                var anySubmit = submit != null && submit.controls.Any(x => x.IsPressed());
+                var anyCancel = cancel != null && cancel.controls.Any(x => x.IsPressed());
                 if (anyNavigate || anySubmit || anyCancel)
                 {
                     // Navigateが動いてしまうため1F遅延
@@ -84,9 +105,9 @@ namespace MornLib
                 }
             }
 
-            if (_cachedInput.actions["Point"].WasPerformedThisFrame())
+            if (point != null && point.WasPerformedThisFrame())
             {
-                var newPoint = _cachedInput.actions["Point"].ReadValue<Vector2>();
+                var newPoint = point.ReadValue<Vector2>();
                 if (_isPointing)
                 {
                     _cachedPointingPos = newPoint;
@@ -168,7 +189,12 @@ namespace MornLib
 
         public override void OnStateEnd()
         {
-            if (_target == null) return;
+            MornInputProvider.OnPlayerInputsChanged -= RefreshCachedInput;
+            if (_target == null)
+            {
+                return;
+            }
+
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
