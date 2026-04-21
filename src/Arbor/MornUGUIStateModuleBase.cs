@@ -27,6 +27,10 @@ namespace MornLib
         public virtual void OnEditorInitialize()
         {
         }
+
+        public virtual void OnEditorRestore()
+        {
+        }
     }
 }
 #endif
