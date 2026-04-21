@@ -42,10 +42,10 @@ namespace MornLib
 
         public override void OnEditorInitialize()
         {
-            var selectables = _parent.CanvasGroup.transform.GetComponentsInChildren<Selectable>().ToList();
+            var selectables = _parent.CanvasGroup.transform.GetComponentsInChildren<Selectable>()
+                .Where(IsButtonCandidate).ToList();
             foreach (var selectable in selectables)
             {
-                if (selectable.GetComponent<MornUGUIIgnore>() != null) continue;
                 var index = _stateLinkSets.FindIndex(x => x.Target == selectable);
                 if (index != -1)
                 {
@@ -59,7 +59,65 @@ namespace MornLib
             }
 
             _stateLinkSets.RemoveAll(x =>
-                selectables.All(y => y != x.Target) || x.Target.GetComponent<MornUGUIIgnore>() != null);
+                selectables.All(y => y != x.Target) || !IsButtonCandidate(x.Target));
+        }
+
+        /// <summary>
+        /// Target が None/Missing になった Set を StateLink.name と一致する Selectable に再バインドする。
+        /// StateLink.stateID は保持するので、リンク先の State 遷移設定を失わずに参照だけ復旧できる。
+        /// </summary>
+        public override void OnEditorRestore()
+        {
+            if (_stateLinkSets == null)
+            {
+                return;
+            }
+
+            var selectables = _parent.CanvasGroup.transform
+                .GetComponentsInChildren<Selectable>(includeInactive: true)
+                .Where(IsButtonCandidate).ToList();
+            foreach (var set in _stateLinkSets)
+            {
+                if (set.Target != null)
+                {
+                    continue;
+                }
+
+                if (set.StateLink == null || string.IsNullOrEmpty(set.StateLink.name))
+                {
+                    continue;
+                }
+
+                var matched = selectables.FirstOrDefault(s => s != null && s.name == set.StateLink.name);
+                if (matched != null)
+                {
+                    set.Target = matched;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Button として扱うべき Selectable か判定する。
+        /// Slider / Scrollbar などボタンでない Selectable と、MornUGUIIgnore が付いたものを除外する。
+        /// </summary>
+        private static bool IsButtonCandidate(Selectable selectable)
+        {
+            if (selectable == null)
+            {
+                return false;
+            }
+
+            if (selectable is Slider || selectable is Scrollbar)
+            {
+                return false;
+            }
+
+            if (selectable.GetComponent<MornUGUIIgnore>() != null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

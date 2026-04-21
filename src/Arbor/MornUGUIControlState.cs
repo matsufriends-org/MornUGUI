@@ -91,6 +91,13 @@ namespace MornLib
                 controlState.RebuildStateLinkCache();
                 EditorUtility.SetDirty(target);
             }
+
+            if (GUILayout.Button("Buttonの復元"))
+            {
+                controlState.Execute(module => module.OnEditorRestore());
+                controlState.RebuildStateLinkCache();
+                EditorUtility.SetDirty(target);
+            }
         }
     }
 #endif
