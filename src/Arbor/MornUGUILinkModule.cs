@@ -88,11 +88,21 @@ namespace MornLib
                     continue;
                 }
 
-                var matched = selectables.FirstOrDefault(s => s != null && s.name == set.StateLink.name);
-                if (matched != null)
+                var matches = selectables.Where(s => s != null && s.name == set.StateLink.name).ToList();
+                if (matches.Count == 0)
                 {
-                    set.Target = matched;
+                    continue;
                 }
+
+                if (matches.Count > 1)
+                {
+                    Debug.LogWarning(
+                        $"[MornUGUILinkModule] Buttonの復元: '{set.StateLink.name}' に一致する Selectable が {matches.Count} 個見つかったため復元をスキップしました。手動で Target を設定してください。",
+                        _parent);
+                    continue;
+                }
+
+                set.Target = matches[0];
             }
         }
 
