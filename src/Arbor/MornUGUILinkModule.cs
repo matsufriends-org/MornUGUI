@@ -49,7 +49,18 @@ namespace MornLib
                 var index = _stateLinkSets.FindIndex(x => x.Target == selectable);
                 if (index != -1)
                 {
-                    _stateLinkSets[index].StateLink.name = selectable.name;
+                    var old = _stateLinkSets[index].StateLink;
+                    _stateLinkSets[index].StateLink = old == null
+                        ? new StateLink { name = selectable.name }
+                        : new StateLink
+                        {
+                            name = selectable.name,
+                            stateID = old.stateID,
+                            transitionTiming = old.transitionTiming,
+                            lineColor = old.lineColor,
+                            onTransitionCountChanged = old.onTransitionCountChanged,
+                            transitionCount = old.transitionCount,
+                        };
                 }
                 else
                 {
