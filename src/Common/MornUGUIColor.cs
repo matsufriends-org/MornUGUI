@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +7,7 @@ namespace MornLib
     [AddComponentMenu("MornUGUI/" + nameof(MornUGUIColor))]
     internal sealed class MornUGUIColor : MornUGUIMonoBase
     {
-        [SerializeField] private List<Image> _images = new();
+        [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _text;
         [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor = Color.white;
         [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor = Color.gray;
@@ -16,7 +15,7 @@ namespace MornLib
         [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor2 = Color.gray;
         private bool _isFocused;
         private IMornUGUIInteractable _parent;
-        private bool HasAny => _images.Count > 0 || _text != null;
+        private bool HasAny => _image != null || _text != null;
 
         public override void Initialize(MonoBehaviour owner)
         {
@@ -53,11 +52,7 @@ namespace MornLib
             Color color;
             if (_isFocused) color = _parent.IsLocked ? _focusedColor2 : _focusedColor;
             else color = _parent.IsLocked ? _unfocusedColor2 : _unfocusedColor;
-            foreach (var image in _images)
-            {
-                if (image != null) image.color = color;
-            }
-
+            if (_image != null) _image.color = color;
             if (_text != null) _text.color = color;
         }
     }
