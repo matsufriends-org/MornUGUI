@@ -1,21 +1,17 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MornLib
 {
-    [AddComponentMenu("MornUGUI/" + nameof(MornUGUIColor))]
-    internal sealed class MornUGUIColor : MornUGUIMonoBase
+    public abstract class MornUGUIColorBase : MornUGUIMonoBase
     {
-        [SerializeField, Me] private Image _image;
-        [SerializeField, Me] private TMP_Text _text;
-        [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor = Color.white;
-        [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor = Color.gray;
-        [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor2 = Color.white;
-        [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor2 = Color.gray;
+        [SerializeField] private Color _focusedColor = Color.white;
+        [SerializeField] private Color _unfocusedColor = Color.gray;
+        [SerializeField] private Color _focusedColor2 = Color.white;
+        [SerializeField] private Color _unfocusedColor2 = Color.gray;
         private bool _isFocused;
         private IMornUGUIInteractable _parent;
-        private bool HasAny => _image != null || _text != null;
+
+        protected abstract void ApplyColor(Color color);
 
         public override void Initialize(MonoBehaviour owner)
         {
@@ -52,8 +48,7 @@ namespace MornLib
             Color color;
             if (_isFocused) color = _parent.IsLocked ? _focusedColor2 : _focusedColor;
             else color = _parent.IsLocked ? _unfocusedColor2 : _unfocusedColor;
-            if (_image != null) _image.color = color;
-            if (_text != null) _text.color = color;
+            ApplyColor(color);
         }
     }
 }
