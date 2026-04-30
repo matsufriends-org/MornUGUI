@@ -14,7 +14,8 @@ namespace MornLib
         IMornUGUISelector,
         IMornUGUIInteractable,
         IMornUGUIMovable,
-        IMornUGUIArrow
+        IMornUGUIArrow,
+        IMornUGUIMonoOwner
     {
         [Header("MornUGUISelector")]
         [SerializeField] private Direction _direction;
@@ -72,6 +73,7 @@ namespace MornLib
 
         protected override void Awake()
         {
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
             foreach (var module in _monoModules)
             {
                 module.Initialize(this);

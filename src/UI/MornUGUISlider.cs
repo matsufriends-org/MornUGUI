@@ -17,7 +17,8 @@ namespace MornLib
         IPointerDownHandler,
         IPointerClickHandler,
         IMornUGUIObject,
-        IMornUGUIInteractable
+        IMornUGUIInteractable,
+        IMornUGUIMonoOwner
     {
         [SerializeField, Me] private Slider _slider;
         [Header("Modules")]
@@ -50,6 +51,7 @@ namespace MornLib
 
         private void Awake()
         {
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
             foreach (var module in _monoModules)
             {
                 module.Initialize(this);

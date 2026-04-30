@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace MornLib
 {
     [AddComponentMenu("MornUGUI/" + nameof(MornUGUIButton))]
-    public sealed class MornUGUIButton : MornUGUIBase, IMornUGUIObject, IMornUGUIInteractable, IMornUGUIToggleHost
+    public sealed class MornUGUIButton : MornUGUIBase, IMornUGUIObject, IMornUGUIInteractable, IMornUGUIToggleHost, IMornUGUIMonoOwner
     {
         [Header("MornUGUIButton")]
         public bool IsLocked;
@@ -29,6 +29,7 @@ namespace MornLib
 
         protected override void Awake()
         {
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
             foreach (var module in _monoModules)
             {
                 module.Initialize(this);
