@@ -4,10 +4,10 @@ namespace MornLib
 {
     public abstract class MornUGUIColorBase : MornUGUIMonoBase
     {
-        [SerializeField] private MornUGUIColorSettings _overrideSettings;
+        [SerializeField] private MornUGUIColorSettings _override;
         private bool _isFocused;
         private IMornUGUIInteractable _parent;
-        private MornUGUIColorSettings Settings => _overrideSettings != null ? _overrideSettings : MornUGUIGlobal.I.DefaultColorSettings;
+        private MornUGUIColorSettings Settings => _override != null ? _override : MornUGUIGlobal.I.DefaultColorSettings;
 
         protected abstract void ApplyColor(Color color);
 
