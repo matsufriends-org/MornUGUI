@@ -4,10 +4,7 @@ namespace MornLib
 {
     public abstract class MornUGUIColorBase : MornUGUIMonoBase
     {
-        [SerializeField] private Color _focusedColor = Color.white;
-        [SerializeField] private Color _unfocusedColor = Color.gray;
-        [SerializeField] private Color _focusedColor2 = Color.white;
-        [SerializeField] private Color _unfocusedColor2 = Color.gray;
+        [SerializeField] private MornUGUIColorSettings _settings;
         private bool _isFocused;
         private IMornUGUIInteractable _parent;
 
@@ -44,10 +41,10 @@ namespace MornLib
 
         private void Refresh()
         {
-            if (_parent == null) return;
+            if (_parent == null || _settings == null) return;
             Color color;
-            if (_isFocused) color = _parent.IsLocked ? _focusedColor2 : _focusedColor;
-            else color = _parent.IsLocked ? _unfocusedColor2 : _unfocusedColor;
+            if (_isFocused) color = _parent.IsLocked ? _settings.FocusedColor2 : _settings.FocusedColor;
+            else color = _parent.IsLocked ? _settings.UnfocusedColor2 : _settings.UnfocusedColor;
             ApplyColor(color);
         }
     }
