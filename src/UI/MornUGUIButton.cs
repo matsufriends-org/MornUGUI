@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,7 +17,6 @@ namespace MornLib
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField] private MornUGUIToggleModule _toggleModule = new();
         [SerializeField, Childrens(true, true)] private MornUGUIMonoBase[] _monoModules;
-        private List<MornUGUIModuleBase> _module;
         public MornUGUIToggleModule AsToggle => _toggleModule;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
@@ -55,22 +53,17 @@ namespace MornLib
             }
         }
 
-        internal override List<MornUGUIModuleBase> CreateModules()
+        internal override MornUGUIModuleBase[] BuildModules()
         {
-            if (_module != null) return _module;
-            _module = new List<MornUGUIModuleBase>();
-            _activeModule.Initialize();
-            _module.Add(_activeModule);
-            _pointerModule.Initialize(this);
-            _module.Add(_pointerModule);
-            _scalerModule.Initialize(this);
-            _module.Add(_scalerModule);
-            _soundModule.Initialize(this);
-            _module.Add(_soundModule);
-            _mirrorModule.Initialize(this);
-            _module.Add(_mirrorModule);
-            _module.Add(_toggleModule);
-            return _module;
+            return new MornUGUIModuleBase[]
+            {
+                _activeModule,
+                _pointerModule,
+                _scalerModule,
+                _soundModule,
+                _mirrorModule,
+                _toggleModule,
+            };
         }
     }
 }

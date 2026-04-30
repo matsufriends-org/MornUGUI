@@ -18,9 +18,9 @@ namespace MornLib
         private bool _overridden;
         private static Selectable s_trackedSelection;
 
-        public void Initialize(Selectable parent)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _parent = parent;
+            _parent = (Selectable)owner;
         }
 
         public override void Update()

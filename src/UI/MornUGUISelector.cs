@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using UnityEngine;
@@ -37,24 +36,19 @@ namespace MornLib
         }
         public IObservable<int> OnValueChanged => _value;
 
-        internal override List<MornUGUIModuleBase> CreateModules()
+        internal override MornUGUIModuleBase[] BuildModules()
         {
-            var result = new List<MornUGUIModuleBase>();
-            _activeModule.Initialize();
-            result.Add(_activeModule);
-            _arrowModule.Initialize(this, this);
-            result.Add(_arrowModule);
-            _limitNavigationModule.Initialize(this);
-            result.Add(_limitNavigationModule);
-            _soundModule.Initialize(this);
-            result.Add(_soundModule);
-            _mirrorModule.Initialize(this);
-            result.Add(_mirrorModule);
+            return new MornUGUIModuleBase[]
+            {
+                _activeModule,
+                _arrowModule,
+                _limitNavigationModule,
+                _soundModule,
+                _mirrorModule,
 #if USE_MORN_LOCALIZE
-            result.Add(_textModule);
-            _textModule.Initialize(this, this);
+                _textModule,
 #endif
-            return result;
+            };
         }
 
         private bool IsAtMin => Value <= _valueRange.x;

@@ -10,9 +10,9 @@ namespace MornLib
     {
         private IMornUGUIMovable _parent;
 
-        public void Initialize(IMornUGUIMovable parent)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _parent = parent;
+            _parent = (IMornUGUIMovable)owner;
         }
 
         public override void OnMove(AxisEventData axisEventData)

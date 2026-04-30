@@ -14,9 +14,9 @@ namespace MornLib
         [SerializeField] private AudioClip _overrideCancelClip;
         private IMornUGUIInteractable _interactable;
 
-        public void Initialize(IMornUGUIInteractable sound)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _interactable = sound;
+            _interactable = (IMornUGUIInteractable)owner;
         }
 
         public override void OnSelect()

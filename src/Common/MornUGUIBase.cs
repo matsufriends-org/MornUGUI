@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,30 +7,15 @@ namespace MornLib
     public abstract class MornUGUIBase : Selectable, ISubmitHandler, IPointerClickHandler
     {
         [SerializeField] private bool _unfocusOnNotInteractable = true;
-        private List<MornUGUIModuleBase> _modules;
-        private List<MornUGUIModuleBase> Modules
-        {
-            get
-            {
-                if (_modules != null) return _modules;
-                _modules = CreateModules();
-                return _modules;
-            }
-        }
-        internal abstract List<MornUGUIModuleBase> CreateModules();
+        private MornUGUIModuleHost _host;
+        private MornUGUIModuleHost Host => _host ??= new MornUGUIModuleHost(this, BuildModules);
 
-        private void Execute(Action<MornUGUIModuleBase> action)
-        {
-            foreach (var module in Modules)
-            {
-                action(module);
-            }
-        }
+        internal abstract MornUGUIModuleBase[] BuildModules();
 
         protected override void Awake()
         {
             base.Awake();
-            Execute(module => module.Awake());
+            Host.Execute(module => module.Awake());
         }
 
         protected virtual void Update()
@@ -43,26 +26,26 @@ namespace MornLib
                 EventSystem.current.SetSelectedGameObject(null);
             }
 
-            Execute(module => module.Update());
+            Host.Execute(module => module.Update());
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            Execute(module => module.OnEnable());
+            Host.Execute(module => module.OnEnable());
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            Execute(module => module.OnDisable());
+            Host.Execute(module => module.OnDisable());
         }
 
         public override void OnSelect(BaseEventData eventData)
         {
             if (!IsInteractable()) return;
             base.OnSelect(eventData);
-            Execute(module => module.OnSelect());
+            Host.Execute(module => module.OnSelect());
         }
 
         public override void OnDeselect(BaseEventData eventData)
@@ -70,51 +53,51 @@ namespace MornLib
             base.OnDeselect(eventData);
             // interactable=falseによる非フォーカス化を望まない場合、モジュールへのOnDeselect伝搬も抑制して見た目を維持
             if (!_unfocusOnNotInteractable && !IsInteractable()) return;
-            Execute(module => module.OnDeselect());
+            Host.Execute(module => module.OnDeselect());
         }
 
         public override void OnMove(AxisEventData eventData)
         {
             if (!IsInteractable()) return;
             base.OnMove(eventData);
-            Execute(module => module.OnMove(eventData));
+            Host.Execute(module => module.OnMove(eventData));
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
             if (!IsInteractable()) return;
             base.OnPointerEnter(eventData);
-            Execute(module => module.OnPointerEnter(eventData));
+            Host.Execute(module => module.OnPointerEnter(eventData));
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
             base.OnPointerExit(eventData);
-            Execute(module => module.OnPointerExit(eventData));
+            Host.Execute(module => module.OnPointerExit(eventData));
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
             if (!IsInteractable()) return;
             base.OnPointerDown(eventData);
-            Execute(module => module.OnPointerDown(eventData));
+            Host.Execute(module => module.OnPointerDown(eventData));
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (!IsInteractable()) return;
-            Execute(module => module.OnPointerClick(eventData));
+            Host.Execute(module => module.OnPointerClick(eventData));
         }
 
         public void OnSubmit(BaseEventData eventData)
         {
             if (!IsInteractable()) return;
-            Execute(module => module.OnSubmit());
+            Host.Execute(module => module.OnSubmit());
         }
 
         protected virtual void ValueChanged()
         {
-            Execute(module => module.OnValueChanged());
+            Host.Execute(module => module.OnValueChanged());
         }
     }
 }

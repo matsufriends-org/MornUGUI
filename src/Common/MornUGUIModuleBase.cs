@@ -1,9 +1,13 @@
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MornLib
 {
     public abstract class MornUGUIModuleBase
     {
+        public virtual void Initialize(MonoBehaviour owner)
+        {
+        }
 
         public virtual void Awake()
         {

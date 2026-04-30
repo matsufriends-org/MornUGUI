@@ -13,9 +13,9 @@ namespace MornLib
         [SerializeField] private AudioClip _overrideSubmitClip;
         private IMornUGUIMovable _movable;
 
-        public void Initialize(IMornUGUIMovable movable)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _movable = movable;
+            _movable = (IMornUGUIMovable)owner;
         }
 
         public override void OnSelect()

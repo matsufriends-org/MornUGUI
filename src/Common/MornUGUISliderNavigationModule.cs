@@ -15,9 +15,9 @@ namespace MornLib
         private MornUGUISlider _slider;
         private float _lastValue;
 
-        public void Initialize(MornUGUISlider slider)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _slider = slider;
+            _slider = (MornUGUISlider)owner;
         }
 
         public override void OnValueChanged()

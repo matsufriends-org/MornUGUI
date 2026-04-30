@@ -11,9 +11,9 @@ namespace MornLib
         private bool _isExist;
         private IMornUGUIObject _parent;
 
-        public void Initialize(IMornUGUIObject parent)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _parent = parent;
+            _parent = (IMornUGUIObject)owner;
         }
 
         public override void OnDisable()

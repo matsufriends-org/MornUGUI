@@ -9,10 +9,6 @@ namespace MornLib
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;
 
-        public void Initialize()
-        {
-        }
-
         public override void Awake()
         {
             if (_focused != null) _focused.SetActive(false);

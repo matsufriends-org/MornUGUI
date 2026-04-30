@@ -17,10 +17,10 @@ namespace MornLib
         private IMornUGUIMovable _movable;
         private IMornUGUIArrow _arrow;
 
-        public void Initialize(IMornUGUIMovable movable, IMornUGUIArrow arrow)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _movable = movable;
-            _arrow = arrow;
+            _movable = (IMornUGUIMovable)owner;
+            _arrow = (IMornUGUIArrow)owner;
         }
 
         public override void Awake()

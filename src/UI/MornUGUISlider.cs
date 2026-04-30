@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,7 +25,7 @@ namespace MornLib
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
         [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
         [SerializeField, Childrens(true, true)] private MornUGUIMonoBase[] _monoModules;
-        private List<MornUGUIModuleBase> _modules;
+        private MornUGUIModuleHost _host;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
         public float Value => _slider.value;
@@ -38,29 +36,17 @@ namespace MornLib
         Transform IMornUGUIObject.Transform => transform;
         GameObject IMornUGUIObject.GameObject => gameObject;
         CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
-        private List<MornUGUIModuleBase> Modules
-        {
-            get
-            {
-                if (_modules != null) return _modules;
-                _modules = new List<MornUGUIModuleBase>();
-                _activeModule.Initialize();
-                _modules.Add(_activeModule);
-                _pointerModule.Initialize(this);
-                _modules.Add(_pointerModule);
-                _navigationModule.Initialize(this);
-                _modules.Add(_navigationModule);
-                _modules.Add(_sliderSoundModule);
-                return _modules;
-            }
-        }
+        private MornUGUIModuleHost Host => _host ??= new MornUGUIModuleHost(this, BuildModules);
 
-        private void Execute(Action<MornUGUIModuleBase> action)
+        private MornUGUIModuleBase[] BuildModules()
         {
-            foreach (var module in Modules)
+            return new MornUGUIModuleBase[]
             {
-                action(module);
-            }
+                _activeModule,
+                _pointerModule,
+                _navigationModule,
+                _sliderSoundModule,
+            };
         }
 
         private void Awake()
@@ -70,28 +56,28 @@ namespace MornLib
                 module.Initialize(this);
             }
 
-            _slider.onValueChanged.AddListener(_ => Execute(module => module.OnValueChanged()));
-            Execute(module => module.Awake());
+            _slider.onValueChanged.AddListener(_ => Host.Execute(module => module.OnValueChanged()));
+            Host.Execute(module => module.Awake());
         }
 
         private void Update()
         {
-            Execute(module => module.Update());
+            Host.Execute(module => module.Update());
         }
 
         private void OnEnable()
         {
-            Execute(module => module.OnEnable());
+            Host.Execute(module => module.OnEnable());
         }
 
         private void OnDisable()
         {
-            Execute(module => module.OnDisable());
+            Host.Execute(module => module.OnDisable());
         }
 
         public void OnSelect(BaseEventData eventData)
         {
-            Execute(module => module.OnSelect());
+            Host.Execute(module => module.OnSelect());
             foreach (var module in _monoModules)
             {
                 module.OnSelect();
@@ -100,7 +86,7 @@ namespace MornLib
 
         public void OnDeselect(BaseEventData eventData)
         {
-            Execute(module => module.OnDeselect());
+            Host.Execute(module => module.OnDeselect());
             foreach (var module in _monoModules)
             {
                 module.OnDeselect();
@@ -109,27 +95,27 @@ namespace MornLib
 
         public void OnSubmit(BaseEventData eventData)
         {
-            Execute(module => module.OnSubmit());
+            Host.Execute(module => module.OnSubmit());
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Execute(module => module.OnPointerEnter(eventData));
+            Host.Execute(module => module.OnPointerEnter(eventData));
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Execute(module => module.OnPointerExit(eventData));
+            Host.Execute(module => module.OnPointerExit(eventData));
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            Execute(module => module.OnPointerDown(eventData));
+            Host.Execute(module => module.OnPointerDown(eventData));
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Execute(module => module.OnPointerClick(eventData));
+            Host.Execute(module => module.OnPointerClick(eventData));
         }
 
         public void OnMove(AxisEventData eventData)
@@ -139,7 +125,7 @@ namespace MornLib
                 return;
             }
 
-            Execute(module => module.OnMove(eventData));
+            Host.Execute(module => module.OnMove(eventData));
         }
     }
 }

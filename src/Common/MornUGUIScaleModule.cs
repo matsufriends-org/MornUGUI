@@ -14,9 +14,9 @@ namespace MornLib
         private IMornUGUIObject _parent;
         private bool IsActive => _isActive;
 
-        public void Initialize(IMornUGUIObject parent)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _parent = parent;
+            _parent = (IMornUGUIObject)owner;
         }
 
         public override void Awake()
