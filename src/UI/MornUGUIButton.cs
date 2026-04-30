@@ -10,7 +10,6 @@ namespace MornLib
         public bool IsLocked;
         public bool IsNegative;
         [Header("Modules")]
-        [SerializeField] private MornUGUIActiveModule _activeModule = new();
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUIScaleModule _scalerModule = new();
         [SerializeField] private MornUGUISoundModule _soundModule = new();
@@ -57,7 +56,6 @@ namespace MornLib
         {
             return new MornUGUIModuleBase[]
             {
-                _activeModule,
                 _pointerModule,
                 _scalerModule,
                 _soundModule,

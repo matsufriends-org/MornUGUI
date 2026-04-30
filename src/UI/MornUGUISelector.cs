@@ -20,7 +20,6 @@ namespace MornLib
         [SerializeField] private IntReactiveProperty _value;
         [SerializeField] private Vector2Int _valueRange;
         [Header("Modules")]
-        [SerializeField] private MornUGUIActiveModule _activeModule;
         [SerializeField] private MornUGUIArrowModule _arrowModule;
         [SerializeField] private MornUGUILimitNavigationModule _limitNavigationModule;
         [SerializeField] private MornUGUIArrowSoundModule _soundModule;
@@ -40,7 +39,6 @@ namespace MornLib
         {
             return new MornUGUIModuleBase[]
             {
-                _activeModule,
                 _arrowModule,
                 _limitNavigationModule,
                 _soundModule,

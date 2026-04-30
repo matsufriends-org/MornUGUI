@@ -20,7 +20,6 @@ namespace MornLib
     {
         [SerializeField, Me] private Slider _slider;
         [Header("Modules")]
-        [SerializeField] private MornUGUIActiveModule _activeModule = new();
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
         [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
@@ -42,7 +41,6 @@ namespace MornLib
         {
             return new MornUGUIModuleBase[]
             {
-                _activeModule,
                 _pointerModule,
                 _navigationModule,
                 _sliderSoundModule,
