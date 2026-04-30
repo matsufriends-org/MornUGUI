@@ -1,23 +1,27 @@
+using System;
 using System.Threading;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MornLib
 {
-    public sealed class MornUGUIButton : MornUGUIBase, IMornUGUIObject, IMornUGUIInteractable
+    public sealed class MornUGUIButton : MornUGUIBase, IMornUGUIObject, IMornUGUIInteractable, IMornUGUIToggleHost
     {
         [Header("MornUGUIButton")]
         public bool IsLocked;
         public bool IsNegative;
+        public bool IsToggleOn;
         [Header("Modules")]
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISoundModule _soundModule = new();
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
-        [SerializeField] private MornUGUIToggleModule _toggleModule = new();
         [SerializeField, Childrens(true, true)] private MornUGUIMonoBase[] _monoModules;
-        public MornUGUIToggleModule AsToggle => _toggleModule;
+        private readonly Subject<bool> _toggleSubject = new();
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
+        bool IMornUGUIToggleHost.IsToggleOn => IsToggleOn;
+        IObservable<bool> IMornUGUIToggleHost.OnToggleChanged => _toggleSubject;
         Transform IMornUGUIObject.Transform => transform;
         GameObject IMornUGUIObject.GameObject => gameObject;
         CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
@@ -51,6 +55,14 @@ namespace MornLib
             }
         }
 
+        public override void OnSubmit(BaseEventData eventData)
+        {
+            base.OnSubmit(eventData);
+            if (!IsInteractable()) return;
+            IsToggleOn = !IsToggleOn;
+            _toggleSubject.OnNext(IsToggleOn);
+        }
+
         internal override MornUGUIModuleBase[] BuildModules()
         {
             return new MornUGUIModuleBase[]
@@ -58,7 +70,6 @@ namespace MornLib
                 _pointerModule,
                 _soundModule,
                 _mirrorModule,
-                _toggleModule,
             };
         }
     }

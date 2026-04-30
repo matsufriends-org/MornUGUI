@@ -89,7 +89,7 @@ namespace MornLib
             Host.Execute(module => module.OnPointerClick(eventData));
         }
 
-        public void OnSubmit(BaseEventData eventData)
+        public virtual void OnSubmit(BaseEventData eventData)
         {
             if (!IsInteractable()) return;
             Host.Execute(module => module.OnSubmit());
