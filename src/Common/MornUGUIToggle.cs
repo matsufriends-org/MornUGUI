@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    [AddComponentMenu("MornUGUI/Toggle")]
+    [AddComponentMenu("MornUGUI/" + nameof(MornUGUIToggle))]
     internal sealed class MornUGUIToggle : MornUGUIMonoBase
     {
         [SerializeField] private GameObject _selectedOn;

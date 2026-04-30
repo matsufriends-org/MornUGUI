@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    [AddComponentMenu("MornUGUI/Localize Font")]
+    [AddComponentMenu("MornUGUI/" + nameof(MornLocalizeFont))]
     [ExecuteAlways]
     [RequireComponent(typeof(MornUGUITextSetter))]
     public sealed class MornLocalizeFont : MonoBehaviour

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace MornLib
 {
-    [AddComponentMenu("MornUGUI/Button")]
+    [AddComponentMenu("MornUGUI/" + nameof(MornUGUIButton))]
     public sealed class MornUGUIButton : MornUGUIBase, IMornUGUIObject, IMornUGUIInteractable, IMornUGUIToggleHost
     {
         [Header("MornUGUIButton")]
