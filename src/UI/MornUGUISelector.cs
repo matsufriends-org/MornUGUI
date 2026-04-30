@@ -29,13 +29,13 @@ namespace MornLib
 #if USE_MORN_LOCALIZE
         [SerializeField] private MornUGUISelectorTextModule _textModule;
 #endif
+        [SerializeField, Childrens(true)] private MornUGUIColorModule[] _colorModules;
         public int Value
         {
             get => _value.Value;
             set => _value.Value = Mathf.Clamp(value, _valueRange.x, _valueRange.y);
         }
         public IObservable<int> OnValueChanged => _value;
-        private MornUGUIColorModule[] _colorModules;
 
         internal override List<MornUGUIModuleBase> CreateModules()
         {
@@ -79,7 +79,6 @@ namespace MornLib
 
         protected override void Awake()
         {
-            _colorModules = GetComponentsInChildren<MornUGUIColorModule>(true);
             foreach (var color in _colorModules)
             {
                 color.Initialize(this);

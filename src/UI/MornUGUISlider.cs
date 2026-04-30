@@ -26,8 +26,8 @@ namespace MornLib
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
         [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
+        [SerializeField, Childrens(true)] private MornUGUIColorModule[] _colorModules;
         private List<MornUGUIModuleBase> _modules;
-        private MornUGUIColorModule[] _colorModules;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
         public float Value => _slider.value;
@@ -65,7 +65,6 @@ namespace MornLib
 
         private void Awake()
         {
-            _colorModules = GetComponentsInChildren<MornUGUIColorModule>(true);
             foreach (var color in _colorModules)
             {
                 color.Initialize(this);

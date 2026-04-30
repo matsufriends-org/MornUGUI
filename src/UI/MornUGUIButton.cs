@@ -17,8 +17,8 @@ namespace MornLib
         [SerializeField] private MornUGUISoundModule _soundModule = new();
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField] private MornUGUIToggleModule _toggleModule = new();
+        [SerializeField, Childrens(true)] private MornUGUIColorModule[] _colorModules;
         private List<MornUGUIModuleBase> _module;
-        private MornUGUIColorModule[] _colorModules;
         public MornUGUIToggleModule AsToggle => _toggleModule;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
@@ -28,7 +28,6 @@ namespace MornLib
 
         protected override void Awake()
         {
-            _colorModules = GetComponentsInChildren<MornUGUIColorModule>(true);
             foreach (var color in _colorModules)
             {
                 color.Initialize(this);
