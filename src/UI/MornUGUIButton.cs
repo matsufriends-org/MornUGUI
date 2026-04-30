@@ -27,6 +27,12 @@ namespace MornLib
         GameObject IMornUGUIObject.GameObject => gameObject;
         CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
 
+        [OnMornInject]
+        private void FilterMonoModules()
+        {
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
+        }
+
         protected override void Awake()
         {
             _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);

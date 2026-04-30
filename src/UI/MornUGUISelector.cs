@@ -71,6 +71,12 @@ namespace MornLib
         Selectable IMornUGUIMovable.LeftNavigationTarget => FindSelectableOnLeft();
         Selectable IMornUGUIMovable.RightNavigationTarget => FindSelectableOnRight();
 
+        [OnMornInject]
+        private void FilterMonoModules()
+        {
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
+        }
+
         protected override void Awake()
         {
             _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);

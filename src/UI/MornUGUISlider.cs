@@ -49,6 +49,12 @@ namespace MornLib
             };
         }
 
+        [OnMornInject]
+        private void FilterMonoModules()
+        {
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
+        }
+
         private void Awake()
         {
             _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
