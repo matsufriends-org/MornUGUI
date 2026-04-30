@@ -11,7 +11,6 @@ namespace MornLib
         public bool IsNegative;
         [Header("Modules")]
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
-        [SerializeField] private MornUGUIScaleModule _scalerModule = new();
         [SerializeField] private MornUGUISoundModule _soundModule = new();
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField] private MornUGUIToggleModule _toggleModule = new();
@@ -57,7 +56,6 @@ namespace MornLib
             return new MornUGUIModuleBase[]
             {
                 _pointerModule,
-                _scalerModule,
                 _soundModule,
                 _mirrorModule,
                 _toggleModule,
