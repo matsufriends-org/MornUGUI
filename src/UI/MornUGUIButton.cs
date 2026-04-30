@@ -17,7 +17,7 @@ namespace MornLib
         [SerializeField] private MornUGUISoundModule _soundModule = new();
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField] private MornUGUIToggleModule _toggleModule = new();
-        [SerializeField, Childrens(true)] private MornUGUIColorModule[] _colorModules;
+        [SerializeField, Childrens(true)] private MornUGUIMonoModuleBase[] _monoModules;
         private List<MornUGUIModuleBase> _module;
         public MornUGUIToggleModule AsToggle => _toggleModule;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
@@ -28,9 +28,9 @@ namespace MornLib
 
         protected override void Awake()
         {
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.Initialize(this);
+                module.Initialize(this);
             }
 
             base.Awake();
@@ -40,18 +40,18 @@ namespace MornLib
         {
             base.OnSelect(eventData);
             if (!IsInteractable()) return;
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.SetFocused(true);
+                module.OnSelect();
             }
         }
 
         public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.SetFocused(false);
+                module.OnDeselect();
             }
         }
 

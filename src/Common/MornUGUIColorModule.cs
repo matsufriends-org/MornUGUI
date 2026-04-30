@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MornLib
 {
-    internal sealed class MornUGUIColorModule : MonoBehaviour
+    internal sealed class MornUGUIColorModule : MornUGUIMonoModuleBase
     {
         [SerializeField] private List<Image> _images = new();
         [SerializeField] private TMP_Text _text;
@@ -17,15 +17,21 @@ namespace MornLib
         private IMornUGUIInteractable _parent;
         private bool HasAny => _images.Count > 0 || _text != null;
 
-        public void Initialize(IMornUGUIInteractable parent)
+        public override void Initialize(MonoBehaviour owner)
         {
-            _parent = parent;
+            _parent = owner as IMornUGUIInteractable;
             Refresh();
         }
 
-        public void SetFocused(bool focused)
+        public override void OnSelect()
         {
-            _isFocused = focused;
+            _isFocused = true;
+            Refresh();
+        }
+
+        public override void OnDeselect()
+        {
+            _isFocused = false;
             Refresh();
         }
 

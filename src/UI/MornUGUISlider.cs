@@ -26,7 +26,7 @@ namespace MornLib
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
         [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
-        [SerializeField, Childrens(true)] private MornUGUIColorModule[] _colorModules;
+        [SerializeField, Childrens(true)] private MornUGUIMonoModuleBase[] _monoModules;
         private List<MornUGUIModuleBase> _modules;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
@@ -65,9 +65,9 @@ namespace MornLib
 
         private void Awake()
         {
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.Initialize(this);
+                module.Initialize(this);
             }
 
             _slider.onValueChanged.AddListener(_ => Execute(module => module.OnValueChanged()));
@@ -92,18 +92,18 @@ namespace MornLib
         public void OnSelect(BaseEventData eventData)
         {
             Execute(module => module.OnSelect());
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.SetFocused(true);
+                module.OnSelect();
             }
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
             Execute(module => module.OnDeselect());
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.SetFocused(false);
+                module.OnDeselect();
             }
         }
 

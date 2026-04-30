@@ -29,7 +29,7 @@ namespace MornLib
 #if USE_MORN_LOCALIZE
         [SerializeField] private MornUGUISelectorTextModule _textModule;
 #endif
-        [SerializeField, Childrens(true)] private MornUGUIColorModule[] _colorModules;
+        [SerializeField, Childrens(true)] private MornUGUIMonoModuleBase[] _monoModules;
         public int Value
         {
             get => _value.Value;
@@ -79,9 +79,9 @@ namespace MornLib
 
         protected override void Awake()
         {
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.Initialize(this);
+                module.Initialize(this);
             }
 
             base.Awake();
@@ -92,18 +92,18 @@ namespace MornLib
         {
             base.OnSelect(eventData);
             if (!IsInteractable()) return;
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.SetFocused(true);
+                module.OnSelect();
             }
         }
 
         public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
-            foreach (var color in _colorModules)
+            foreach (var module in _monoModules)
             {
-                color.SetFocused(false);
+                module.OnDeselect();
             }
         }
 
