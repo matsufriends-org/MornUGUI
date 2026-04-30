@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,8 +5,7 @@ using UnityEngine.UI;
 
 namespace MornLib
 {
-    [Serializable]
-    internal sealed class MornUGUIColorModule : MornUGUIModuleBase
+    internal sealed class MornUGUIColorModule : MonoBehaviour
     {
         [SerializeField] private List<Image> _images = new();
         [SerializeField] private TMP_Text _text;
@@ -22,20 +20,29 @@ namespace MornLib
         public void Initialize(IMornUGUIInteractable parent)
         {
             _parent = parent;
+            Refresh();
         }
 
-        public override void Awake()
+        public void SetFocused(bool focused)
         {
-            Update();
+            _isFocused = focused;
+            Refresh();
         }
 
-        public override void OnDisable()
+        private void Update()
         {
-            OnDeselect();
+            Refresh();
         }
 
-        public override void Update()
+        private void OnDisable()
         {
+            _isFocused = false;
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            if (_parent == null) return;
             Color color;
             if (_isFocused) color = _parent.IsLocked ? _focusedColor2 : _focusedColor;
             else color = _parent.IsLocked ? _unfocusedColor2 : _unfocusedColor;
@@ -45,18 +52,6 @@ namespace MornLib
             }
 
             if (_text != null) _text.color = color;
-        }
-
-        public override void OnSelect()
-        {
-            _isFocused = true;
-            Update();
-        }
-
-        public override void OnDeselect()
-        {
-            _isFocused = false;
-            Update();
         }
     }
 }

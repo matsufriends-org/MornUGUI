@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEngine.UI.Scrollbar;
 
@@ -22,7 +23,6 @@ namespace MornLib
         [Header("Modules")]
         [SerializeField] private MornUGUIActiveModule _activeModule;
         [SerializeField] private MornUGUIArrowModule _arrowModule;
-        [SerializeField] private MornUGUIColorModule _colorModule;
         [SerializeField] private MornUGUILimitNavigationModule _limitNavigationModule;
         [SerializeField] private MornUGUIArrowSoundModule _soundModule;
         [SerializeField] private MornUGUIMirrorModule _mirrorModule;
@@ -35,6 +35,7 @@ namespace MornLib
             set => _value.Value = Mathf.Clamp(value, _valueRange.x, _valueRange.y);
         }
         public IObservable<int> OnValueChanged => _value;
+        private MornUGUIColorModule[] _colorModules;
 
         internal override List<MornUGUIModuleBase> CreateModules()
         {
@@ -43,8 +44,6 @@ namespace MornLib
             result.Add(_activeModule);
             _arrowModule.Initialize(this, this);
             result.Add(_arrowModule);
-            _colorModule.Initialize(this);
-            result.Add(_colorModule);
             _limitNavigationModule.Initialize(this);
             result.Add(_limitNavigationModule);
             _soundModule.Initialize(this);
@@ -80,8 +79,33 @@ namespace MornLib
 
         protected override void Awake()
         {
+            _colorModules = GetComponentsInChildren<MornUGUIColorModule>(true);
+            foreach (var color in _colorModules)
+            {
+                color.Initialize(this);
+            }
+
             base.Awake();
             _value.Subscribe(_ => ValueChanged());
+        }
+
+        public override void OnSelect(BaseEventData eventData)
+        {
+            base.OnSelect(eventData);
+            if (!IsInteractable()) return;
+            foreach (var color in _colorModules)
+            {
+                color.SetFocused(true);
+            }
+        }
+
+        public override void OnDeselect(BaseEventData eventData)
+        {
+            base.OnDeselect(eventData);
+            foreach (var color in _colorModules)
+            {
+                color.SetFocused(false);
+            }
         }
 
         public void OnUpSubmit()

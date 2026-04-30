@@ -23,11 +23,11 @@ namespace MornLib
         [SerializeField, Me] private Slider _slider;
         [Header("Modules")]
         [SerializeField] private MornUGUIActiveModule _activeModule = new();
-        [SerializeField] private MornUGUIColorModule _colorModule = new();
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
         [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
         private List<MornUGUIModuleBase> _modules;
+        private MornUGUIColorModule[] _colorModules;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
         public float Value => _slider.value;
@@ -46,8 +46,6 @@ namespace MornLib
                 _modules = new List<MornUGUIModuleBase>();
                 _activeModule.Initialize();
                 _modules.Add(_activeModule);
-                _colorModule.Initialize(this);
-                _modules.Add(_colorModule);
                 _pointerModule.Initialize(this);
                 _modules.Add(_pointerModule);
                 _navigationModule.Initialize(this);
@@ -67,6 +65,12 @@ namespace MornLib
 
         private void Awake()
         {
+            _colorModules = GetComponentsInChildren<MornUGUIColorModule>(true);
+            foreach (var color in _colorModules)
+            {
+                color.Initialize(this);
+            }
+
             _slider.onValueChanged.AddListener(_ => Execute(module => module.OnValueChanged()));
             Execute(module => module.Awake());
         }
@@ -89,11 +93,19 @@ namespace MornLib
         public void OnSelect(BaseEventData eventData)
         {
             Execute(module => module.OnSelect());
+            foreach (var color in _colorModules)
+            {
+                color.SetFocused(true);
+            }
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
             Execute(module => module.OnDeselect());
+            foreach (var color in _colorModules)
+            {
+                color.SetFocused(false);
+            }
         }
 
         public void OnSubmit(BaseEventData eventData)
