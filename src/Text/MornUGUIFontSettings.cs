@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    [CreateAssetMenu(fileName = nameof(MornUGUIFontSettings), menuName = "Morn/" + nameof(MornUGUIFontSettings))]
+    [CreateAssetMenu(fileName = nameof(MornUGUIFontSettings), menuName = "MornUGUI/" + nameof(MornUGUIFontSettings))]
     public sealed class MornUGUIFontSettings : ScriptableObject
     {
         [Serializable]

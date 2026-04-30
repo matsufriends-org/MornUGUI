@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    [CreateAssetMenu(fileName = nameof(MornUGUITextSizeSettings), menuName = "Morn/" + nameof(MornUGUITextSizeSettings))]
+    [CreateAssetMenu(fileName = nameof(MornUGUITextSizeSettings), menuName = "MornUGUI/" + nameof(MornUGUITextSizeSettings))]
     public sealed class MornUGUITextSizeSettings : ScriptableObject
     {
         public int FontSize = 50;

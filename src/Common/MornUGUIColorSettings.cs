@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    [CreateAssetMenu(fileName = nameof(MornUGUIColorSettings), menuName = "Morn/" + nameof(MornUGUIColorSettings))]
+    [CreateAssetMenu(fileName = nameof(MornUGUIColorSettings), menuName = "MornUGUI/" + nameof(MornUGUIColorSettings))]
     public sealed class MornUGUIColorSettings : ScriptableObject
     {
         [SerializeField] private Color _focusedColor = Color.white;

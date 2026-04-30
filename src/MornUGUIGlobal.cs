@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace MornLib
 {
-    [CreateAssetMenu(fileName = nameof(MornUGUIGlobal), menuName = "Morn/" + nameof(MornUGUIGlobal))]
+    [CreateAssetMenu(fileName = nameof(MornUGUIGlobal), menuName = "MornUGUI/" + nameof(MornUGUIGlobal))]
     public sealed class MornUGUIGlobal : MornGlobalBase<MornUGUIGlobal>
     {
         protected override string ModuleName => "MornUGUI";
