@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MornLib
 {
-    public abstract class MornUGUIMonoModuleBase : MonoBehaviour
+    public abstract class MornUGUIMonoBase : MonoBehaviour
     {
         public virtual void Initialize(MonoBehaviour owner)
         {

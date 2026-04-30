@@ -29,7 +29,7 @@ namespace MornLib
 #if USE_MORN_LOCALIZE
         [SerializeField] private MornUGUISelectorTextModule _textModule;
 #endif
-        [SerializeField, Childrens(true)] private MornUGUIMonoModuleBase[] _monoModules;
+        [SerializeField, Childrens(true)] private MornUGUIMonoBase[] _monoModules;
         public int Value
         {
             get => _value.Value;

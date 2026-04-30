@@ -17,7 +17,7 @@ namespace MornLib
         [SerializeField] private MornUGUISoundModule _soundModule = new();
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField] private MornUGUIToggleModule _toggleModule = new();
-        [SerializeField, Childrens(true)] private MornUGUIMonoModuleBase[] _monoModules;
+        [SerializeField, Childrens(true)] private MornUGUIMonoBase[] _monoModules;
         private List<MornUGUIModuleBase> _module;
         public MornUGUIToggleModule AsToggle => _toggleModule;
         bool IMornUGUIInteractable.IsLocked => IsLocked;

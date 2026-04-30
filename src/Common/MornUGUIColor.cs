@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MornLib
 {
-    internal sealed class MornUGUIColorModule : MornUGUIMonoModuleBase
+    internal sealed class MornUGUIColor : MornUGUIMonoBase
     {
         [SerializeField] private List<Image> _images = new();
         [SerializeField] private TMP_Text _text;
