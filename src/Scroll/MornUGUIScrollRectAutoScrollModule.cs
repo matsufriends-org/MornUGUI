@@ -86,7 +86,7 @@ namespace MornLib
                 return;
             }
 
-            var targetRect = target.GetComponent<RectTransform>();
+            var targetRect = target.transform as RectTransform;
             if (targetRect == null)
             {
                 return;

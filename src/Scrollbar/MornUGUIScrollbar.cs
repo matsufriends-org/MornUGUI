@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,7 +11,8 @@ namespace MornLib
     [RequireComponent(typeof(Scrollbar))]
     internal sealed class MornUGUIScrollbar : MonoBehaviour, IMoveHandler, ISelectHandler, ISubmitHandler
     {
-        [SerializeField] private Scrollbar _scrollbar;
+        [SerializeField, Me] private Scrollbar _scrollbar;
+        [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private MornUGUIScrollbarActiveModule _activeModule;
         [SerializeField] private MornUGUIScrollbarNavigationModule _navigationModule;
         [SerializeField] private MornUGUIScrollbarSoundModule _soundModule;
@@ -63,27 +63,14 @@ namespace MornLib
 
         private void SimulateScroll(bool toUp)
         {
-            // Find the associated ScrollRect
-            var scrollRect = GetComponentInParent<ScrollRect>();
-            if (scrollRect == null)
-            {
-                // If no ScrollRect in parent, check if this scrollbar is referenced by any ScrollRect
-                scrollRect = FindObjectsByType<ScrollRect>(FindObjectsSortMode.None)
-                   .FirstOrDefault(sr => sr.verticalScrollbar == _scrollbar || sr.horizontalScrollbar == _scrollbar);
-            }
-
-            if (scrollRect == null) return;
-            var delta = toUp ? scrollRect.scrollSensitivity : -scrollRect.scrollSensitivity;
+            if (_scrollRect == null) return;
+            var delta = toUp ? _scrollRect.scrollSensitivity : -_scrollRect.scrollSensitivity;
             delta *= 6;
-
-            // Create a fake scroll event
             var eventData = new PointerEventData(EventSystem.current)
             {
                 scrollDelta = Direction == Direction.BottomToTop || Direction == Direction.TopToBottom ? new Vector2(0, delta) : new Vector2(delta, 0)
             };
-
-            // Execute the scroll event on the ScrollRect
-            ExecuteEvents.Execute(scrollRect.gameObject, eventData, ExecuteEvents.scrollHandler);
+            ExecuteEvents.Execute(_scrollRect.gameObject, eventData, ExecuteEvents.scrollHandler);
         }
 
         void IMoveHandler.OnMove(AxisEventData eventData)

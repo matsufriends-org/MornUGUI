@@ -7,7 +7,7 @@ namespace MornLib
     internal sealed class MornUGUIRectSizeSetter : MonoBehaviour
     {
         [SerializeField] private MornUGUIRectSizeSettings _settings;
-        [SerializeField] private RectTransform _rect;
+        [SerializeField, Me] private RectTransform _rect;
 
         private void Awake()
         {

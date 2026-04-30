@@ -9,7 +9,7 @@ namespace MornLib
     [RequireComponent(typeof(ScrollRect))]
     internal sealed class MornUGUIScrollRect : MonoBehaviour
     {
-        [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField, Me] private ScrollRect _scrollRect;
         [SerializeField] private MornUGUIScrollRectAutoScrollModule _autoScrollModule;
         [SerializeField] private MornUGUIScrollRectScrollbarStepModule _scrollbarStepModule;
         public ScrollRect ScrollRect => _scrollRect;
@@ -22,11 +22,6 @@ namespace MornLib
 
         private void Awake()
         {
-            if (_scrollRect == null)
-            {
-                _scrollRect = GetComponent<ScrollRect>();
-            }
-
             Execute((module, scrollRect) => module.Awake(scrollRect));
         }
 
@@ -38,11 +33,6 @@ namespace MornLib
         private void Update()
         {
             Execute((module, scrollRect) => module.OnUpdate(scrollRect));
-        }
-
-        private void Reset()
-        {
-            _scrollRect = GetComponent<ScrollRect>();
         }
 
         private IEnumerable<MornUGUIScrollRectModuleBase> GetModules()

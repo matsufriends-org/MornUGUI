@@ -131,7 +131,11 @@ namespace MornLib
 
             // キャッシュの更新処理
             var currentSelected = EventSystem.current.currentSelectedGameObject;
-            var current = currentSelected == null ? null : currentSelected.GetComponent<Selectable>();
+            Selectable current = null;
+            if (currentSelected != null)
+            {
+                currentSelected.TryGetComponent(out current);
+            }
             if (current != null && IsFocusable(current))
             {
                 _focusCache = current;
@@ -140,8 +144,7 @@ namespace MornLib
             // キャッシュが非アクティブな場合、隣接を探す
             if (_findAdjacent && _focusCache != null && !_focusCache.gameObject.activeInHierarchy)
             {
-                var selectable = _focusCache.GetComponent<Selectable>();
-                if (selectable != null)
+                var selectable = _focusCache;
                 {
                     var list = new List<Selectable>()
                     {

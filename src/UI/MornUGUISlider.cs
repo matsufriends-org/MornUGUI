@@ -20,7 +20,14 @@ namespace MornLib
         IMornUGUIObject,
         IMornUGUIInteractable
     {
-        [SerializeField] private Slider _slider;
+        [SerializeField, Me] private Slider _slider;
+        [Header("Modules")]
+        [SerializeField] private MornUGUIActiveModule _activeModule = new();
+        [SerializeField] private MornUGUIColorModule _colorModule = new();
+        [SerializeField] private MornUGUIPointerModule _pointerModule = new();
+        [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
+        [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
+        private List<MornUGUIModuleBase> _modules;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
         public float Value => _slider.value;
@@ -31,13 +38,6 @@ namespace MornLib
         Transform IMornUGUIObject.Transform => transform;
         GameObject IMornUGUIObject.GameObject => gameObject;
         CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
-        [Header("Modules")]
-        [SerializeField] private MornUGUIActiveModule _activeModule = new();
-        [SerializeField] private MornUGUIColorModule _colorModule = new();
-        [SerializeField] private MornUGUIPointerModule _pointerModule = new();
-        [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
-        [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
-        private List<MornUGUIModuleBase> _modules;
         private List<MornUGUIModuleBase> Modules
         {
             get

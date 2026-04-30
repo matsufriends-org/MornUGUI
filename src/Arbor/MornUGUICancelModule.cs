@@ -1,10 +1,12 @@
 #if USE_ARBOR
 using System;
+#if USE_INPUTSYSTEM
+using System.Linq;
+#endif
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 #if USE_INPUTSYSTEM
-using System.Linq;
 using UnityEngine.InputSystem;
 #endif
 

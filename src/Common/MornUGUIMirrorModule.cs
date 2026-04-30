@@ -28,8 +28,7 @@ namespace MornLib
             if (EventSystem.current == null) return;
             var currentGo = EventSystem.current.currentSelectedGameObject;
             if (currentGo == null) return;
-            var current = currentGo.GetComponent<Selectable>();
-            if (current != null)
+            if (currentGo.TryGetComponent<Selectable>(out var current))
             {
                 s_trackedSelection = current;
             }

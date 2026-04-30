@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UniRx;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.UI.Scrollbar;
