@@ -26,7 +26,7 @@ namespace MornLib
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule = new();
         [SerializeField] private MornUGUISliderSoundModule _sliderSoundModule = new();
-        [SerializeField, Childrens(true)] private MornUGUIMonoBase[] _monoModules;
+        [SerializeField, Childrens(true, true)] private MornUGUIMonoBase[] _monoModules;
         private List<MornUGUIModuleBase> _modules;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
