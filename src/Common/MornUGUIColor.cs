@@ -7,8 +7,8 @@ namespace MornLib
     [AddComponentMenu("MornUGUI/" + nameof(MornUGUIColor))]
     internal sealed class MornUGUIColor : MornUGUIMonoBase
     {
-        [SerializeField] private Image _image;
-        [SerializeField] private TMP_Text _text;
+        [SerializeField, Me] private Image _image;
+        [SerializeField, Me] private TMP_Text _text;
         [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor = Color.white;
         [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor = Color.gray;
         [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor2 = Color.white;
