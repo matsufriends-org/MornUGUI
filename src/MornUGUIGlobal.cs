@@ -25,6 +25,8 @@ namespace MornLib
         [SerializeField] private float _sliderSoundInterval = 0.3f;
         [Header("Materials")]
         [SerializeField] private string[] _materialNames;
+        [Header("Color")]
+        [SerializeField] private MornUGUIColorSettings _defaultColorSettings;
 #if USE_INPUTSYSTEM
         public InputAction InputSubmit => _submit.action;
         public InputAction InputCancel => _cancel.action;
@@ -36,5 +38,6 @@ namespace MornLib
         public int BlockFrame => _soundBlockFrame;
         public float SliderSoundInterval => _sliderSoundInterval;
         public string[] MaterialNames => _materialNames;
+        public MornUGUIColorSettings DefaultColorSettings => _defaultColorSettings;
     }
 }

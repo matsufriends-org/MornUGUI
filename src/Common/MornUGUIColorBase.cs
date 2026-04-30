@@ -4,9 +4,10 @@ namespace MornLib
 {
     public abstract class MornUGUIColorBase : MornUGUIMonoBase
     {
-        [SerializeField] private MornUGUIColorSettings _settings;
+        [SerializeField] private MornUGUIColorSettings _overrideSettings;
         private bool _isFocused;
         private IMornUGUIInteractable _parent;
+        private MornUGUIColorSettings Settings => _overrideSettings != null ? _overrideSettings : MornUGUIGlobal.I.DefaultColorSettings;
 
         protected abstract void ApplyColor(Color color);
 
@@ -41,10 +42,12 @@ namespace MornLib
 
         private void Refresh()
         {
-            if (_parent == null || _settings == null) return;
+            if (_parent == null) return;
+            var settings = Settings;
+            if (settings == null) return;
             Color color;
-            if (_isFocused) color = _parent.IsLocked ? _settings.FocusedColor2 : _settings.FocusedColor;
-            else color = _parent.IsLocked ? _settings.UnfocusedColor2 : _settings.UnfocusedColor;
+            if (_isFocused) color = _parent.IsLocked ? settings.FocusedColor2 : settings.FocusedColor;
+            else color = _parent.IsLocked ? settings.UnfocusedColor2 : settings.UnfocusedColor;
             ApplyColor(color);
         }
     }
