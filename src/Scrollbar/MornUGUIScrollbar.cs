@@ -8,6 +8,7 @@ using static UnityEngine.UI.Scrollbar;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Scrollbar")]
     [RequireComponent(typeof(Scrollbar))]
     internal sealed class MornUGUIScrollbar : MonoBehaviour, IMoveHandler, ISelectHandler, ISubmitHandler
     {

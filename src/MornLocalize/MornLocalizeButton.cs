@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Localize Button")]
     [ExecuteAlways]
     [DisallowMultipleComponent]
     public sealed class MornLocalizeButton : MonoBehaviour

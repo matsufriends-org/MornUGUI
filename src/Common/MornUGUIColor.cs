@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Color")]
     internal sealed class MornUGUIColor : MornUGUIMonoBase
     {
         [SerializeField] private List<Image> _images = new();

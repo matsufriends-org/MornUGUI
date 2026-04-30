@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Scale")]
     internal sealed class MornUGUIScale : MornUGUIMonoBase
     {
         [SerializeField] private bool _isActive;

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Slider")]
     [RequireComponent(typeof(Slider))]
     internal sealed class MornUGUISlider : MonoBehaviour,
         ISelectHandler,

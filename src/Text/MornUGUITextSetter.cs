@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Text Setter")]
     [ExecuteAlways]
     public sealed class MornUGUITextSetter : MonoBehaviour
     {

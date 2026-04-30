@@ -8,6 +8,7 @@ using static UnityEngine.UI.Scrollbar;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Selector")]
     public sealed class MornUGUISelector : MornUGUIBase,
         IMornUGUIObject,
         IMornUGUISelector,

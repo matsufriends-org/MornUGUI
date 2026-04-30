@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Rect Size Setter")]
     [RequireComponent(typeof(RectTransform))]
     [ExecuteAlways]
     internal sealed class MornUGUIRectSizeSetter : MonoBehaviour

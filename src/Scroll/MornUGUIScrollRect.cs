@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace MornLib
 {
     /// <summary>拡張可能なScrollRectコンポーネント</summary>
+    [AddComponentMenu("MornUGUI/ScrollRect")]
     [RequireComponent(typeof(ScrollRect))]
     internal sealed class MornUGUIScrollRect : MonoBehaviour
     {

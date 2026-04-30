@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MornLib
 {
+    [AddComponentMenu("MornUGUI/Active")]
     internal sealed class MornUGUIActive : MornUGUIMonoBase
     {
         [SerializeField] private GameObject _focused;
