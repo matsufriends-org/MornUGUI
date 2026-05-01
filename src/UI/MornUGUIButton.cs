@@ -12,17 +12,16 @@ namespace MornLib
         [Header("MornUGUIButton")]
         public bool IsLocked;
         public bool IsNegative;
-        public bool IsToggleOn;
+        public bool IsToggleOn { get; set; }
         [Header("Modules")]
         [SerializeField] private MornUGUIPointerModule _pointerModule = new();
         [SerializeField] private MornUGUISoundModule _soundModule = new();
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField, Childrens(true, true)] private MornUGUIMonoBase[] _monoModules;
         private readonly Subject<bool> _toggleSubject = new();
+        public IObservable<bool> OnToggleChanged => _toggleSubject;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
-        bool IMornUGUIToggleHost.IsToggleOn => IsToggleOn;
-        IObservable<bool> IMornUGUIToggleHost.OnToggleChanged => _toggleSubject;
         Transform IMornUGUIObject.Transform => transform;
         GameObject IMornUGUIObject.GameObject => gameObject;
         CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
