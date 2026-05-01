@@ -11,9 +11,7 @@ namespace MornLib
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private MornUGUIAnimationModule _animationModule;
-#if USE_INPUTSYSTEM
         [SerializeField] private MornUGUIAutoFocusModule _autoFocusModule;
-#endif
         [SerializeField] private MornUGUILinkModule _linkModule;
         [SerializeField] private MornUGUICancelModule _cancelModule;
         [SerializeField] private MornUGUICanvasFadeModule _canvasFadeModule;
@@ -35,10 +33,8 @@ namespace MornLib
                 // CanvasInteractableはAutoFocusより前に実行し、フォーカス時点でinteractableをtrueにしておく
                 _canvasInteractableModule.Initialize(this);
                 _modules.Add(_canvasInteractableModule);
-#if USE_INPUTSYSTEM
                 _autoFocusModule.Initialize(this);
                 _modules.Add(_autoFocusModule);
-#endif
                 _linkModule.Initialize(this);
                 _modules.Add(_linkModule);
                 _cancelModule.Initialize(this);

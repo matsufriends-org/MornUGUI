@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
-#if USE_INPUTSYSTEM
 using UnityEngine.InputSystem;
-#endif
 
 namespace MornLib
 {
@@ -10,11 +8,9 @@ namespace MornLib
     public sealed class MornUGUIGlobal : MornGlobalBase<MornUGUIGlobal>
     {
         protected override string ModuleName => "MornUGUI";
-#if USE_INPUTSYSTEM
         [Header("Input")]
         [SerializeField] private InputActionReference _submit;
         [SerializeField] private InputActionReference _cancel;
-#endif
         [Header("Audio")]
         [SerializeField] private AudioMixerGroup _seMixerGroup;
         [SerializeField] private AudioClip _buttonCursorClip;
@@ -27,10 +23,10 @@ namespace MornLib
         [SerializeField] private string[] _materialNames;
         [Header("Color")]
         [SerializeField] private MornUGUIColorSettings _defaultColorSettings;
-#if USE_INPUTSYSTEM
+        public InputActionReference Submit => _submit;
+        public InputActionReference Cancel => _cancel;
         public InputAction InputSubmit => _submit.action;
         public InputAction InputCancel => _cancel.action;
-#endif
         public AudioMixerGroup SeMixerGroup => _seMixerGroup;
         public AudioClip ButtonCursorClip => _buttonCursorClip;
         public AudioClip ButtonSubmitClip => _buttonSubmitClip;
