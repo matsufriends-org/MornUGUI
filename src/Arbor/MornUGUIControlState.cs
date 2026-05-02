@@ -6,6 +6,7 @@ using Arbor;
 #endif
 #if USE_MORNSTATE
 using MornLib;
+using StateLink = MornLib.Connection;
 #endif
 using UnityEditor;
 using UnityEngine;
@@ -13,8 +14,10 @@ using UnityEngine;
 namespace MornLib
 {
 #if USE_MORNSTATE
+    [Serializable]
     internal class MornUGUIControlState : MornStateBehaviour
 #else
+    [Serializable]
     internal class MornUGUIControlState : StateBehaviour
 #endif
     {
@@ -94,14 +97,22 @@ namespace MornLib
             if (GUILayout.Button("Buttonの再取得"))
             {
                 controlState.Execute(module => module.OnEditorInitialize());
+#if USE_MORNSTATE
+                controlState.RebuildConnectionCache();
+#else
                 controlState.RebuildStateLinkCache();
+#endif
                 EditorUtility.SetDirty(target);
             }
 
             if (GUILayout.Button("Buttonの復元"))
             {
                 controlState.Execute(module => module.OnEditorRestore());
+#if USE_MORNSTATE
+                controlState.RebuildConnectionCache();
+#else
                 controlState.RebuildStateLinkCache();
+#endif
                 EditorUtility.SetDirty(target);
             }
         }
