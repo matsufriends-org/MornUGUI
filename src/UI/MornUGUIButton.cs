@@ -19,6 +19,7 @@ namespace MornLib
         [SerializeField] private MornUGUIMirrorModule _mirrorModule = new();
         [SerializeField, Childrens(true, true)] private MornUGUIMonoBase[] _monoModules;
         private readonly Subject<bool> _toggleSubject = new();
+        private int _monoModulesInitVersion = -1;
         public IObservable<bool> OnToggleChanged => _toggleSubject;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
@@ -32,26 +33,20 @@ namespace MornLib
             _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
         }
 
-        protected override void Awake()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            EnsureMonoModulesInitialized();
+        }
+
+        private void EnsureMonoModulesInitialized()
+        {
+            if (_monoModulesInitVersion == MornUGUIPlayModeVersion.Current) return;
+            _monoModulesInitVersion = MornUGUIPlayModeVersion.Current;
             _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
             foreach (var module in _monoModules)
             {
                 module.Initialize(this);
-            }
-
-            base.Awake();
-            // 動的 Instantiate 直後に SetSelectedGameObject(this) されたケースでは、
-            // Awake より先に OnSelect コールバックが来ており _monoModules がまだ空。
-            // その状態を救うため、 Awake 末尾で「既に自分が選択中なら」OnSelect を再発行。
-            if (EventSystem.current != null
-                && EventSystem.current.currentSelectedGameObject == gameObject
-                && IsInteractable())
-            {
-                foreach (var module in _monoModules)
-                {
-                    module.OnSelect();
-                }
             }
         }
 
@@ -59,6 +54,7 @@ namespace MornLib
         {
             base.OnSelect(eventData);
             if (!IsInteractable()) return;
+            EnsureMonoModulesInitialized();
             foreach (var module in _monoModules)
             {
                 module.OnSelect();
@@ -68,6 +64,7 @@ namespace MornLib
         public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
+            EnsureMonoModulesInitialized();
             foreach (var module in _monoModules)
             {
                 module.OnDeselect();

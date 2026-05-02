@@ -71,6 +71,8 @@ namespace MornLib
         Selectable IMornUGUIMovable.LeftNavigationTarget => FindSelectableOnLeft();
         Selectable IMornUGUIMovable.RightNavigationTarget => FindSelectableOnRight();
 
+        private int _monoModulesInitVersion = -1;
+
         [OnMornInject]
         private void FilterMonoModules()
         {
@@ -79,20 +81,32 @@ namespace MornLib
 
         protected override void Awake()
         {
+            base.Awake();
+            _value.Subscribe(_ => ValueChanged());
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            EnsureMonoModulesInitialized();
+        }
+
+        private void EnsureMonoModulesInitialized()
+        {
+            if (_monoModulesInitVersion == MornUGUIPlayModeVersion.Current) return;
+            _monoModulesInitVersion = MornUGUIPlayModeVersion.Current;
             _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
             foreach (var module in _monoModules)
             {
                 module.Initialize(this);
             }
-
-            base.Awake();
-            _value.Subscribe(_ => ValueChanged());
         }
 
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
             if (!IsInteractable()) return;
+            EnsureMonoModulesInitialized();
             foreach (var module in _monoModules)
             {
                 module.OnSelect();
@@ -102,6 +116,7 @@ namespace MornLib
         public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
+            EnsureMonoModulesInitialized();
             foreach (var module in _monoModules)
             {
                 module.OnDeselect();

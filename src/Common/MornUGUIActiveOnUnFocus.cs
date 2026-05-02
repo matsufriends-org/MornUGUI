@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MornLib
 {
@@ -8,7 +9,14 @@ namespace MornLib
         public override void Initialize(MonoBehaviour owner)
         {
             if (!Application.isPlaying) return;
-            gameObject.SetActive(true);
+            var es = EventSystem.current;
+            var ownerGo = owner != null ? owner.gameObject : null;
+            var isSelected = es != null && ownerGo != null && es.currentSelectedGameObject == ownerGo;
+            var desired = !isSelected;
+            if (gameObject.activeSelf != desired)
+            {
+                gameObject.SetActive(desired);
+            }
         }
 
         public override void OnSelect()

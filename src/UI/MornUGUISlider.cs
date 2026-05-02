@@ -49,6 +49,8 @@ namespace MornLib
             };
         }
 
+        private int _monoModulesInitVersion = -1;
+
         [OnMornInject]
         private void FilterMonoModules()
         {
@@ -57,12 +59,6 @@ namespace MornLib
 
         private void Awake()
         {
-            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
-            foreach (var module in _monoModules)
-            {
-                module.Initialize(this);
-            }
-
             _slider.onValueChanged.AddListener(_ => Host.Execute(module => module.OnValueChanged()));
             Host.Execute(module => module.Awake());
         }
@@ -75,6 +71,7 @@ namespace MornLib
         private void OnEnable()
         {
             Host.Execute(module => module.OnEnable());
+            EnsureMonoModulesInitialized();
         }
 
         private void OnDisable()
@@ -82,8 +79,20 @@ namespace MornLib
             Host.Execute(module => module.OnDisable());
         }
 
+        private void EnsureMonoModulesInitialized()
+        {
+            if (_monoModulesInitVersion == MornUGUIPlayModeVersion.Current) return;
+            _monoModulesInitVersion = MornUGUIPlayModeVersion.Current;
+            _monoModules = MornUGUIMonoOwnerUtil.FilterDirectlyOwned(this, _monoModules);
+            foreach (var module in _monoModules)
+            {
+                module.Initialize(this);
+            }
+        }
+
         public void OnSelect(BaseEventData eventData)
         {
+            EnsureMonoModulesInitialized();
             Host.Execute(module => module.OnSelect());
             foreach (var module in _monoModules)
             {
@@ -93,6 +102,7 @@ namespace MornLib
 
         public void OnDeselect(BaseEventData eventData)
         {
+            EnsureMonoModulesInitialized();
             Host.Execute(module => module.OnDeselect());
             foreach (var module in _monoModules)
             {
