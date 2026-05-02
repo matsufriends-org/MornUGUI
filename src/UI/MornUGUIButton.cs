@@ -41,6 +41,18 @@ namespace MornLib
             }
 
             base.Awake();
+            // 動的 Instantiate 直後に SetSelectedGameObject(this) されたケースでは、
+            // Awake より先に OnSelect コールバックが来ており _monoModules がまだ空。
+            // その状態を救うため、 Awake 末尾で「既に自分が選択中なら」OnSelect を再発行。
+            if (EventSystem.current != null
+                && EventSystem.current.currentSelectedGameObject == gameObject
+                && IsInteractable())
+            {
+                foreach (var module in _monoModules)
+                {
+                    module.OnSelect();
+                }
+            }
         }
 
         public override void OnSelect(BaseEventData eventData)
