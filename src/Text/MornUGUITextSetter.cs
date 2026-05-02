@@ -52,7 +52,7 @@ namespace MornLib
                 return;
             }
 
-            if (FontSettings != null && MaterialType != null)
+            if (FontSettings != null && MaterialType != null && MaterialType.Index >= 0)
             {
                 var fontChanged = _text.font != FontSettings.Font;
                 var materialChanged = _text.fontSharedMaterial != FontSettings.GetMaterial(MaterialType);

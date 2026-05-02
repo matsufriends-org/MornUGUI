@@ -27,7 +27,7 @@ namespace MornLib
                 return materialSet.Material;
             }
 
-            if (Materials != null && Materials.Length > 0 && materialType.Index < Materials.Length)
+            if (Materials != null && materialType.Index >= 0 && materialType.Index < Materials.Length)
             {
                 return Materials[materialType.Index];
             }
