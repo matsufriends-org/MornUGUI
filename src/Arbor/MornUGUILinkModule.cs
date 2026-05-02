@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if USE_ARBOR
 using Arbor;
+#endif
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
