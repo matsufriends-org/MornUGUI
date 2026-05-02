@@ -1,9 +1,7 @@
 #if USE_ARBOR
 using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace MornLib
@@ -13,33 +11,10 @@ namespace MornLib
     {
         [SerializeField] private Selectable _target;
         private MornUGUIControlState _parent;
-        private PlayerInput _cachedInput;
 
         public override void Initialize(MornUGUIControlState parent)
         {
             _parent = parent;
-        }
-
-        public override void OnStateBegin()
-        {
-            if (_target == null)
-            {
-                return;
-            }
-
-            MornInputProvider.OnPlayerInputsChanged += RefreshCachedInput;
-            RefreshCachedInput();
-        }
-
-        public override void OnStateEnd()
-        {
-            MornInputProvider.OnPlayerInputsChanged -= RefreshCachedInput;
-        }
-
-        /// <summary>MornInputProvider の join/leave 通知でのみ再計算 (毎 frame チェックはしない)</summary>
-        private void RefreshCachedInput()
-        {
-            _cachedInput = PlayerInput.all.OrderBy(p => p.playerIndex).FirstOrDefault();
         }
 
         public override void OnStateUpdate()
@@ -56,12 +31,10 @@ namespace MornLib
                 return;
             }
 
-            if (_cachedInput == null)
-            {
-                return;
-            }
-
-            var cancelAction = _cachedInput.FindAction(MornUGUIGlobal.I.Cancel);
+            // グローバル UI の Cancel Action を直接参照。
+            // _globalUIActions.devices が MornInputProvider 側で 1P (最若 playerIndex) のデバイスに絞られているため、
+            // ここでは PlayerInput を経由せずとも自動的に 1P のみ反応する。
+            var cancelAction = MornUGUIGlobal.I.InputCancel;
             if (cancelAction != null && cancelAction.WasPerformedThisFrame())
             {
                 if (current != _target.gameObject)
