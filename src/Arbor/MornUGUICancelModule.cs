@@ -1,4 +1,4 @@
-#if USE_ARBOR
+#if USE_ARBOR || USE_MORNSTATE
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;

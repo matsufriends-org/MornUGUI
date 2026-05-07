@@ -1,9 +1,11 @@
-#if USE_ARBOR
+#if USE_ARBOR || USE_MORNSTATE
 using System;
 using System.Collections.Generic;
 using System.Linq;
 #if USE_ARBOR
 using Arbor;
+#elif USE_MORNSTATE
+using StateLink = MornLib.Connection;
 #endif
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -52,6 +54,7 @@ namespace MornLib
                 if (index != -1)
                 {
                     var old = _stateLinkSets[index].StateLink;
+#if USE_ARBOR
                     _stateLinkSets[index].StateLink = old == null
                         ? new StateLink { name = selectable.name }
                         : new StateLink
@@ -63,6 +66,11 @@ namespace MornLib
                             onTransitionCountChanged = old.onTransitionCountChanged,
                             transitionCount = old.transitionCount,
                         };
+#else
+                    _stateLinkSets[index].StateLink = old == null
+                        ? new StateLink { name = selectable.name }
+                        : new StateLink { name = selectable.name, stateID = old.stateID };
+#endif
                 }
                 else
                 {
@@ -111,7 +119,7 @@ namespace MornLib
                 {
                     Debug.LogWarning(
                         $"[MornUGUILinkModule] Buttonの復元: '{set.StateLink.name}' に一致する Selectable が {matches.Count} 個見つかったため復元をスキップしました。手動で Target を設定してください。",
-                        _parent);
+                        _parent.gameObject);
                     continue;
                 }
 

@@ -1,4 +1,4 @@
-#if USE_ARBOR
+#if USE_ARBOR || USE_MORNSTATE
 using System;
 using System.Collections.Generic;
 #if USE_ARBOR
@@ -8,7 +8,6 @@ using Arbor;
 using MornLib;
 using StateLink = MornLib.Connection;
 #endif
-using UnityEditor;
 using UnityEngine;
 
 namespace MornLib
@@ -65,7 +64,11 @@ namespace MornLib
             }
         }
 
+#if USE_MORNSTATE
+        public override void OnAwake()
+#else
         private void Awake()
+#endif
         {
             Execute(module => module.OnAwake());
         }
@@ -84,39 +87,28 @@ namespace MornLib
         {
             Execute(module => module.OnStateEnd());
         }
-    }
 
-#if UNITY_EDITOR
-    [CustomEditor(typeof(MornUGUIControlState))]
-    public sealed class MornUGUIButtonStateEditor : Editor
-    {
-        public override void OnInspectorGUI()
+        [Button("Buttonの再取得")]
+        public void RefreshButtons()
         {
-            base.OnInspectorGUI();
-            var controlState = (MornUGUIControlState)target;
-            if (GUILayout.Button("Buttonの再取得"))
-            {
-                controlState.Execute(module => module.OnEditorInitialize());
+            Execute(module => module.OnEditorInitialize());
 #if USE_MORNSTATE
-                controlState.RebuildConnectionCache();
+            RebuildConnectionCache();
 #else
-                controlState.RebuildStateLinkCache();
+            RebuildStateLinkCache();
 #endif
-                EditorUtility.SetDirty(target);
-            }
+        }
 
-            if (GUILayout.Button("Buttonの復元"))
-            {
-                controlState.Execute(module => module.OnEditorRestore());
+        [Button("Buttonの復元")]
+        public void RestoreButtons()
+        {
+            Execute(module => module.OnEditorRestore());
 #if USE_MORNSTATE
-                controlState.RebuildConnectionCache();
+            RebuildConnectionCache();
 #else
-                controlState.RebuildStateLinkCache();
+            RebuildStateLinkCache();
 #endif
-                EditorUtility.SetDirty(target);
-            }
         }
     }
-#endif
 }
 #endif
