@@ -1,4 +1,3 @@
-#if USE_ARBOR || USE_MORNSTATE
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -79,4 +78,3 @@ namespace MornLib
         }
     }
 }
-#endif

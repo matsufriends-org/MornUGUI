@@ -1,17 +1,16 @@
-#if USE_ARBOR || USE_MORNSTATE
 using System;
 using System.Collections.Generic;
 #if USE_ARBOR
 using Arbor;
 #endif
-#if USE_MORNSTATE
+#if !USE_ARBOR
 using MornLib;
 #endif
 using UnityEngine;
 
 namespace MornLib
 {
-#if USE_MORNSTATE
+#if !USE_ARBOR
     [Serializable]
     internal class MornUGUIControlState : MornStateBehaviour
 #else
@@ -63,7 +62,7 @@ namespace MornLib
             }
         }
 
-#if USE_MORNSTATE
+#if !USE_ARBOR
         public override void OnAwake()
 #else
         private void Awake()
@@ -91,7 +90,7 @@ namespace MornLib
         public void RefreshButtons()
         {
             Execute(module => module.OnEditorInitialize());
-#if USE_MORNSTATE
+#if !USE_ARBOR
             RebuildStateLinkCache();
 #else
             RebuildStateLinkCache();
@@ -102,7 +101,7 @@ namespace MornLib
         public void RestoreButtons()
         {
             Execute(module => module.OnEditorRestore());
-#if USE_MORNSTATE
+#if !USE_ARBOR
             RebuildStateLinkCache();
 #else
             RebuildStateLinkCache();
@@ -110,4 +109,3 @@ namespace MornLib
         }
     }
 }
-#endif

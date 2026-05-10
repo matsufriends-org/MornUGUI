@@ -1,4 +1,3 @@
-#if USE_ARBOR || USE_MORNSTATE
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -52,4 +51,3 @@ namespace MornLib
         }
     }
 }
-#endif

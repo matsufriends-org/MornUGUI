@@ -1,4 +1,3 @@
-#if USE_ARBOR || USE_MORNSTATE
 using System;
 
 namespace MornLib
@@ -33,4 +32,3 @@ namespace MornLib
         }
     }
 }
-#endif

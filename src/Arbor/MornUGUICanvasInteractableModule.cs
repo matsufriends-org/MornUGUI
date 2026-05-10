@@ -1,4 +1,3 @@
-#if USE_ARBOR || USE_MORNSTATE
 using System;
 using UnityEngine;
 
@@ -37,4 +36,3 @@ namespace MornLib
         }
     }
 }
-#endif
