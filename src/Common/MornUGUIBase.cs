@@ -15,11 +15,13 @@ namespace MornLib
         protected override void Awake()
         {
             base.Awake();
+            if (!Application.isPlaying) return;
             Host.Execute(module => module.Awake());
         }
 
         protected virtual void Update()
         {
+            if (!Application.isPlaying) return;
             if (_unfocusOnNotInteractable && !IsInteractable() && EventSystem.current != null &&
                 EventSystem.current.currentSelectedGameObject == gameObject)
             {
@@ -32,12 +34,14 @@ namespace MornLib
         protected override void OnEnable()
         {
             base.OnEnable();
+            if (!Application.isPlaying) return;
             Host.Execute(module => module.OnEnable());
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+            if (!Application.isPlaying) return;
             Host.Execute(module => module.OnDisable());
         }
 

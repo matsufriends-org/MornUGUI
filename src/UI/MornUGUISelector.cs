@@ -19,13 +19,14 @@ namespace MornLib
     {
         [Header("MornUGUISelector")]
         [SerializeField] private Direction _direction;
-        [SerializeField] private IntReactiveProperty _value;
+        [SerializeField] private IntReactiveProperty _value = new();
         [SerializeField] private Vector2Int _valueRange;
         [Header("Modules")]
         [SerializeField] private MornUGUIArrowModule _arrowModule;
         [SerializeField] private MornUGUILimitNavigationModule _limitNavigationModule;
         [SerializeField] private MornUGUIArrowSoundModule _soundModule;
         [SerializeField] private MornUGUIMirrorModule _mirrorModule;
+        [SerializeField] private MornUGUISelectorValueModule _valueModule;
 #if USE_MORN_LOCALIZE
         [SerializeField] private MornUGUISelectorTextModule _textModule;
 #endif
@@ -45,6 +46,7 @@ namespace MornLib
                 _limitNavigationModule,
                 _soundModule,
                 _mirrorModule,
+                _valueModule,
 #if USE_MORN_LOCALIZE
                 _textModule,
 #endif

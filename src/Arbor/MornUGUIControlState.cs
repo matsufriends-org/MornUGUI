@@ -6,7 +6,7 @@ using Arbor;
 #endif
 #if USE_MORNSTATE
 using MornLib;
-using StateLink = MornLib.Connection;
+using StateLink = MornLib.StateLink;
 #endif
 using UnityEngine;
 
@@ -93,7 +93,7 @@ namespace MornLib
         {
             Execute(module => module.OnEditorInitialize());
 #if USE_MORNSTATE
-            RebuildConnectionCache();
+            RebuildStateLinkCache();
 #else
             RebuildStateLinkCache();
 #endif
@@ -104,7 +104,7 @@ namespace MornLib
         {
             Execute(module => module.OnEditorRestore());
 #if USE_MORNSTATE
-            RebuildConnectionCache();
+            RebuildStateLinkCache();
 #else
             RebuildStateLinkCache();
 #endif

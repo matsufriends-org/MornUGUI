@@ -5,7 +5,7 @@ using System.Linq;
 #if USE_ARBOR
 using Arbor;
 #elif USE_MORNSTATE
-using StateLink = MornLib.Connection;
+using StateLink = MornLib.StateLink;
 #endif
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -67,9 +67,14 @@ namespace MornLib
                             transitionCount = old.transitionCount,
                         };
 #else
-                    _stateLinkSets[index].StateLink = old == null
-                        ? new StateLink { name = selectable.name }
-                        : new StateLink { name = selectable.name, stateID = old.stateID };
+                    if (old == null)
+                    {
+                        _stateLinkSets[index].StateLink = new StateLink { name = selectable.name };
+                    }
+                    else
+                    {
+                        old.name = selectable.name;
+                    }
 #endif
                 }
                 else

@@ -26,11 +26,6 @@
     "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "com.caitsithware.arbor",
-            "expression": "",
-            "define": "USE_ARBOR"
-        },
-{
             "name": "com.tsukumistudio.mornlocalize",
             "expression": "",
             "define": "USE_MORN_LOCALIZE"
