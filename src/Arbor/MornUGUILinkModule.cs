@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 #if USE_ARBOR
 using Arbor;
-#elif USE_MORNSTATE
-using StateLink = MornLib.StateLink;
 #endif
 using Cysharp.Threading.Tasks;
 using UniRx;

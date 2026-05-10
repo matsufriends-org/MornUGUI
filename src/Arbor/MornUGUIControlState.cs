@@ -6,7 +6,6 @@ using Arbor;
 #endif
 #if USE_MORNSTATE
 using MornLib;
-using StateLink = MornLib.StateLink;
 #endif
 using UnityEngine;
 
