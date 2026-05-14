@@ -90,9 +90,7 @@ namespace MornLib
         public void RefreshButtons()
         {
             Execute(module => module.OnEditorInitialize());
-#if !USE_ARBOR
-            RebuildStateLinkCache();
-#else
+#if USE_ARBOR
             RebuildStateLinkCache();
 #endif
         }
@@ -101,9 +99,7 @@ namespace MornLib
         public void RestoreButtons()
         {
             Execute(module => module.OnEditorRestore());
-#if !USE_ARBOR
-            RebuildStateLinkCache();
-#else
+#if USE_ARBOR
             RebuildStateLinkCache();
 #endif
         }

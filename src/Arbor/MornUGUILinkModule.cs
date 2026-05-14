@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 #if USE_ARBOR
 using Arbor;
+#else
+using MornLib;
 #endif
 using Cysharp.Threading.Tasks;
 using UniRx;
