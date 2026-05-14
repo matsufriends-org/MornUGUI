@@ -1,22 +1,18 @@
 using System;
 using System.Collections.Generic;
-#if USE_ARBOR
-using Arbor;
-#endif
-#if !USE_ARBOR
+#if USE_MORNSTATE
 using MornLib;
+using StateBehaviour = MornLib.MornStateBehaviour;
+#elif USE_ARBOR
+using Arbor;
 #endif
 using UnityEngine;
 
+#if USE_MORNSTATE || USE_ARBOR
 namespace MornLib
 {
-#if !USE_ARBOR
-    [Serializable]
-    internal class MornUGUIControlState : MornStateBehaviour
-#else
     [Serializable]
     internal class MornUGUIControlState : StateBehaviour
-#endif
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private MornUGUIAnimationModule _animationModule;
@@ -105,3 +101,5 @@ namespace MornLib
         }
     }
 }
+
+#endif // USE_MORNSTATE || USE_ARBOR
