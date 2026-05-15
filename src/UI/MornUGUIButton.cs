@@ -27,6 +27,13 @@ namespace MornLib
         GameObject IMornUGUIObject.GameObject => gameObject;
         CancellationToken IMornUGUIObject.DestroyCancellationToken => destroyCancellationToken;
 
+        public void SetToggleOn(bool isOn)
+        {
+            if (IsToggleOn == isOn) return;
+            IsToggleOn = isOn;
+            _toggleSubject.OnNext(IsToggleOn);
+        }
+
         [OnMornInject]
         private void FilterMonoModules()
         {
@@ -75,8 +82,7 @@ namespace MornLib
         {
             base.OnSubmit(eventData);
             if (!IsInteractable()) return;
-            IsToggleOn = !IsToggleOn;
-            _toggleSubject.OnNext(IsToggleOn);
+            SetToggleOn(!IsToggleOn);
         }
 
         internal override MornUGUIModuleBase[] BuildModules()
