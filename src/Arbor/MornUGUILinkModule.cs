@@ -12,6 +12,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if USE_MORNSTATE || USE_ARBOR
 namespace MornLib
 {
     [Serializable]
@@ -156,3 +157,4 @@ namespace MornLib
         }
     }
 }
+#endif

@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
+#if USE_MORNSTATE || USE_ARBOR
 namespace MornLib
 {
     [Serializable]
@@ -82,3 +83,4 @@ namespace MornLib
         }
     }
 }
+#endif

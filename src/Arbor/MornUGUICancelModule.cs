@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+#if USE_MORNSTATE || USE_ARBOR
 namespace MornLib
 {
     [Serializable]
@@ -51,3 +52,4 @@ namespace MornLib
         }
     }
 }
+#endif
