@@ -13,7 +13,7 @@ namespace MornLib
         [SerializeField, ShowIf(nameof(IsActive))] private float _fadeInDuration = 0.3f;
         [SerializeField, ShowIf(nameof(IsActive))] private float _fadeOutDuration = 0.6f;
         private CancellationTokenSource _cts;
-        private MornUGUIControlState _parent;
+        [NonSerialized] private MornUGUIControlState _parent;
         private bool IsActive => _isActive;
 
         public override void Initialize(MornUGUIControlState parent)

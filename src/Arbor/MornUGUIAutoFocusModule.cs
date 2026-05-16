@@ -22,7 +22,7 @@ namespace MornLib
         private PlayerInput _cachedInput;
         private bool _isPointing;
         private Vector2? _cachedPointingPos;
-        private MornUGUIControlState _parent;
+        [NonSerialized] private MornUGUIControlState _parent;
         private bool IsActive => _target != null;
 
         public override void Initialize(MornUGUIControlState parent)

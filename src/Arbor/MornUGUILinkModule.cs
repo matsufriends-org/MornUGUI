@@ -26,7 +26,7 @@ namespace MornLib
         }
 
         [SerializeField, ReadOnly] private List<StateLinkSet> _stateLinkSets;
-        private MornUGUIControlState _parent;
+        [NonSerialized] private MornUGUIControlState _parent;
 
         public override void Initialize(MornUGUIControlState parent)
         {

@@ -15,7 +15,7 @@ namespace MornLib
         private bool _isIn;
         private bool IsActive => _isActive;
         private CancellationTokenSource _cancellationTokenSource;
-        private MornUGUIControlState _parent;
+        [NonSerialized] private MornUGUIControlState _parent;
 
         public override void Initialize(MornUGUIControlState parent)
         {

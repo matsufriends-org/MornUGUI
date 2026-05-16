@@ -10,7 +10,7 @@ namespace MornLib
     internal class MornUGUICancelModule : MornUGUIStateModuleBase
     {
         [SerializeField] private Selectable _target;
-        private MornUGUIControlState _parent;
+        [NonSerialized] private MornUGUIControlState _parent;
 
         public override void Initialize(MornUGUIControlState parent)
         {
