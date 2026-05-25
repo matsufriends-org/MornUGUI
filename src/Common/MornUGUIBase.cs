@@ -42,6 +42,11 @@ namespace MornLib
         {
             base.OnDisable();
             if (!Application.isPlaying) return;
+            if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == gameObject)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+
             Host.Execute(module => module.OnDisable());
         }
 

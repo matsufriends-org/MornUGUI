@@ -6,13 +6,25 @@ namespace MornLib
     [AddComponentMenu("MornUGUI/" + nameof(MornUGUIActiveOnFocus))]
     internal sealed class MornUGUIActiveOnFocus : MornUGUIMonoBase
     {
+        private MonoBehaviour _owner;
+
         public override void Initialize(MonoBehaviour owner)
         {
+            _owner = owner;
             if (!Application.isPlaying) return;
-            // 動的 Instantiate 直後に SetSelectedGameObject(this) されているケースを救済するため、
-            // 既に owner が選択中なら active にしておく。 通常の再生開始時は false 側に倒れる。
+            SyncActive();
+        }
+
+        private void OnEnable()
+        {
+            if (!Application.isPlaying) return;
+            SyncActive();
+        }
+
+        private void SyncActive()
+        {
             var es = EventSystem.current;
-            var ownerGo = owner != null ? owner.gameObject : null;
+            var ownerGo = _owner != null ? _owner.gameObject : null;
             var isSelected = es != null && ownerGo != null && es.currentSelectedGameObject == ownerGo;
             if (gameObject.activeSelf != isSelected)
             {
